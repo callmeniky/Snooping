@@ -1,15 +1,12 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Home Page";
+    Layout = null;
 }
 
-<div role="banner" class="container">
+ @{Html.RenderPartial("_LoginPartial");}
+ 
 
-    <section id="login">
-        @Html.Partial("_LoginPartial")
-    </section>
 
-</div>
 
-<div class="ui-widget-header">
 
-</div>

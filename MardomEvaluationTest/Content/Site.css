@@ -27,7 +27,9 @@ body {
 
 
 button.btn-default {
-    background-color: #d3dce0 !important;
+    background-color: #01B1AF !important;
+    background-image: linear-gradient(to bottom, #01B1AF 0%, #01B1AF 100%);
+    color: #ECECEC;
 }
 
 /*#body

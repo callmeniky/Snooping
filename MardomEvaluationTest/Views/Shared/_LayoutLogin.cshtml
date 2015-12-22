@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>Bienvenido a Snooping</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-wrapper">
+            <div class="float-left" style="margin-left: -292px;">
+                <p class="site-title">
+                    @Html.ActionLink("Snooping", "Index", "Home")
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+</body>
+</html>
