@@ -26,8 +26,9 @@ namespace MardomEvaluationTest.Models
         }
     
         public DbSet<UsersInfo> UsersInfo { get; set; }
-        public DbSet<Follows> Follows { get; set; }
         public DbSet<Images> Images { get; set; }
         public DbSet<Snoops> Snoops { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Follows> Follows { get; set; }
     }
 }

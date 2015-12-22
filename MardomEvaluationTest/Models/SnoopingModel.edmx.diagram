@@ -6,9 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="548509ec84b0453ab3bc4865d330201d" Name="Diagram1">
         <EntityTypeShape EntityType="SnoopingDBModel.UsersInfo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SnoopingDBModel.Follows" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SnoopingDBModel.Images" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SnoopingDBModel.Snoops" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SnoopingDBModel.Users" Width="1.5" PointX="0.75" PointY="6" />
+        <AssociationConnector Association="SnoopingDBModel.FK_UsersInfo_Users" />
+        <EntityTypeShape EntityType="SnoopingDBModel.Follows" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

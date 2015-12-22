@@ -14,7 +14,7 @@ namespace MardomEvaluationTest.Models
     
     public partial class Follows
     {
-        public int UserFollower { get; set; }
+        public int UserFollowerID { get; set; }
         public int UserFollowedID { get; set; }
         public System.DateTime DateFollow { get; set; }
     }

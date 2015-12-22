@@ -4,21 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SnoopingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'SnoopingDB.Profile.UsersInfo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+    <Schema Namespace="SnoopingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsLockout" Type="bit" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="UsersInfo">
           <Key>
             <PropertyRef Name="UserInfoID" />
-            <PropertyRef Name="FirstName" />
-            <PropertyRef Name="LastName" />
-            <PropertyRef Name="Age" />
-            <PropertyRef Name="EMail" />
-            <PropertyRef Name="DateCreated" />
-            <PropertyRef Name="DateModified" />
-            <PropertyRef Name="Status" />
           </Key>
           <Property Name="UserInfoID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Age" Type="int" Nullable="false" />
@@ -27,91 +31,61 @@ advertencia 6002: La tabla o vista 'SnoopingDB.Profile.UsersInfo' no tiene defin
           <Property Name="DateModified" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'SnoopingDB.Social.Follows' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Follows">
           <Key>
-            <PropertyRef Name="UserFollower" />
+            <PropertyRef Name="UserFollowerID" />
             <PropertyRef Name="UserFollowedID" />
-            <PropertyRef Name="DateFollow" />
           </Key>
-          <Property Name="UserFollower" Type="int" Nullable="false" />
+          <Property Name="UserFollowerID" Type="int" Nullable="false" />
           <Property Name="UserFollowedID" Type="int" Nullable="false" />
           <Property Name="DateFollow" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'SnoopingDB.Social.Images' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Images">
           <Key>
             <PropertyRef Name="ImageGuid" />
-            <PropertyRef Name="ImageBin" />
           </Key>
           <Property Name="ImageGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ImageBin" Type="varbinary" MaxLength="1" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'SnoopingDB.Social.Snoops' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Snoops">
           <Key>
             <PropertyRef Name="SnoopID" />
-            <PropertyRef Name="Snoop" />
-            <PropertyRef Name="DateSnoop" />
           </Key>
           <Property Name="SnoopID" Type="int" Nullable="false" />
           <Property Name="Snoop" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="ImageGuid" Type="uniqueidentifier" />
           <Property Name="DateSnoop" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK_UsersInfo_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UsersInfo" Type="Self.UsersInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UsersInfo">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SnoopingDBModelStoreContainer">
-          <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" store:Type="Tables" store:Schema="Profile">
-            <DefiningQuery>SELECT 
-[UsersInfo].[UserInfoID] AS [UserInfoID], 
-[UsersInfo].[FirstName] AS [FirstName], 
-[UsersInfo].[LastName] AS [LastName], 
-[UsersInfo].[Age] AS [Age], 
-[UsersInfo].[EMail] AS [EMail], 
-[UsersInfo].[DateCreated] AS [DateCreated], 
-[UsersInfo].[DateModified] AS [DateModified], 
-[UsersInfo].[Status] AS [Status]
-FROM [Profile].[UsersInfo] AS [UsersInfo]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Follows" EntityType="Self.Follows" store:Type="Tables" store:Schema="Social">
-            <DefiningQuery>SELECT 
-[Follows].[UserFollower] AS [UserFollower], 
-[Follows].[UserFollowedID] AS [UserFollowedID], 
-[Follows].[DateFollow] AS [DateFollow]
-FROM [Social].[Follows] AS [Follows]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Images" EntityType="Self.Images" store:Type="Tables" store:Schema="Social">
-            <DefiningQuery>SELECT 
-[Images].[ImageGuid] AS [ImageGuid], 
-[Images].[ImageBin] AS [ImageBin]
-FROM [Social].[Images] AS [Images]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Snoops" EntityType="Self.Snoops" store:Type="Tables" store:Schema="Social">
-            <DefiningQuery>SELECT 
-[Snoops].[SnoopID] AS [SnoopID], 
-[Snoops].[Snoop] AS [Snoop], 
-[Snoops].[ImageGuid] AS [ImageGuid], 
-[Snoops].[DateSnoop] AS [DateSnoop]
-FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="Profile" store:Type="Tables" />
+          <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" Schema="Profile" store:Type="Tables" />
+          <EntitySet Name="Follows" EntityType="Self.Follows" Schema="Social" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="Social" store:Type="Tables" />
+          <EntitySet Name="Snoops" EntityType="Self.Snoops" Schema="Social" store:Type="Tables" />
+          <AssociationSet Name="FK_UsersInfo_Users" Association="Self.FK_UsersInfo_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInfo" EntitySet="UsersInfo" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SnoopingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="UsersInfo">
           <Key>
             <PropertyRef Name="UserInfoID" />
-            <PropertyRef Name="FirstName" />
-            <PropertyRef Name="LastName" />
-            <PropertyRef Name="Age" />
-            <PropertyRef Name="EMail" />
-            <PropertyRef Name="DateCreated" />
-            <PropertyRef Name="DateModified" />
-            <PropertyRef Name="Status" />
           </Key>
           <Property Name="UserInfoID" Type="Int32" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -121,21 +95,12 @@ FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Follows">
-          <Key>
-            <PropertyRef Name="UserFollower" />
-            <PropertyRef Name="UserFollowedID" />
-            <PropertyRef Name="DateFollow" />
-          </Key>
-          <Property Name="UserFollower" Type="Int32" Nullable="false" />
-          <Property Name="UserFollowedID" Type="Int32" Nullable="false" />
-          <Property Name="DateFollow" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="SnoopingDBModel.FK_UsersInfo_Users" FromRole="UsersInfo" ToRole="Users" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
             <PropertyRef Name="ImageGuid" />
-            <PropertyRef Name="ImageBin" />
           </Key>
           <Property Name="ImageGuid" Type="Guid" Nullable="false" />
           <Property Name="ImageBin" Type="Binary" MaxLength="1" FixedLength="false" Nullable="false" />
@@ -143,8 +108,6 @@ FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
         <EntityType Name="Snoops">
           <Key>
             <PropertyRef Name="SnoopID" />
-            <PropertyRef Name="Snoop" />
-            <PropertyRef Name="DateSnoop" />
           </Key>
           <Property Name="SnoopID" Type="Int32" Nullable="false" />
           <Property Name="Snoop" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
@@ -153,10 +116,49 @@ FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
         </EntityType>
         <EntityContainer Name="SnoopingDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" />
-          <EntitySet Name="Follows" EntityType="Self.Follows" />
           <EntitySet Name="Images" EntityType="Self.Images" />
           <EntitySet Name="Snoops" EntityType="Self.Snoops" />
+          <EntitySet Name="Users" EntityType="SnoopingDBModel.Users" />
+          <AssociationSet Name="FK_UsersInfo_Users" Association="SnoopingDBModel.FK_UsersInfo_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInfo" EntitySet="UsersInfo" />
+          </AssociationSet>
+          <EntitySet Name="Follows" EntityType="SnoopingDBModel.Follows" />
         </EntityContainer>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="IsLockout" Type="Boolean" Nullable="false" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UsersInfo" Relationship="SnoopingDBModel.FK_UsersInfo_Users" FromRole="Users" ToRole="UsersInfo" />
+        </EntityType>
+        <Association Name="FK_UsersInfo_Users">
+          <End Type="SnoopingDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="SnoopingDBModel.UsersInfo" Role="UsersInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UsersInfo">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Follows">
+          <Key>
+            <PropertyRef Name="UserFollowerID" />
+            <PropertyRef Name="UserFollowedID" />
+          </Key>
+          <Property Name="UserFollowerID" Type="Int32" Nullable="false" />
+          <Property Name="UserFollowedID" Type="Int32" Nullable="false" />
+          <Property Name="DateFollow" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -166,6 +168,7 @@ FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
           <EntitySetMapping Name="UsersInfo">
             <EntityTypeMapping TypeName="SnoopingDBModel.UsersInfo">
               <MappingFragment StoreEntitySet="UsersInfo">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserInfoID" ColumnName="UserInfoID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -174,15 +177,6 @@ FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Follows">
-            <EntityTypeMapping TypeName="SnoopingDBModel.Follows">
-              <MappingFragment StoreEntitySet="Follows">
-                <ScalarProperty Name="UserFollower" ColumnName="UserFollower" />
-                <ScalarProperty Name="UserFollowedID" ColumnName="UserFollowedID" />
-                <ScalarProperty Name="DateFollow" ColumnName="DateFollow" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -201,6 +195,28 @@ FROM [Social].[Snoops] AS [Snoops]</DefiningQuery>
                 <ScalarProperty Name="Snoop" ColumnName="Snoop" />
                 <ScalarProperty Name="ImageGuid" ColumnName="ImageGuid" />
                 <ScalarProperty Name="DateSnoop" ColumnName="DateSnoop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SnoopingDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="IsLockout" ColumnName="IsLockout" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Follows">
+            <EntityTypeMapping TypeName="SnoopingDBModel.Follows">
+              <MappingFragment StoreEntitySet="Follows">
+                <ScalarProperty Name="DateFollow" ColumnName="DateFollow" />
+                <ScalarProperty Name="UserFollowedID" ColumnName="UserFollowedID" />
+                <ScalarProperty Name="UserFollowerID" ColumnName="UserFollowerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

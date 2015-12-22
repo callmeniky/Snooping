@@ -12,18 +12,21 @@ namespace MardomEvaluationTest.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UsersInfo
+    public partial class Users
     {
-        public int UserInfoID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Age { get; set; }
-        public string EMail { get; set; }
-        public System.DateTime DateCreated { get; set; }
-        public System.DateTime DateModified { get; set; }
-        public bool Status { get; set; }
-        public int UserID { get; set; }
+        public Users()
+        {
+            this.UsersInfo = new HashSet<UsersInfo>();
+        }
     
-        public virtual Users Users { get; set; }
+        public int UserID { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string PasswordSalt { get; set; }
+        public bool IsApproved { get; set; }
+        public bool IsLockout { get; set; }
+        public Nullable<System.DateTime> LastLoginDate { get; set; }
+    
+        public virtual ICollection<UsersInfo> UsersInfo { get; set; }
     }
 }
