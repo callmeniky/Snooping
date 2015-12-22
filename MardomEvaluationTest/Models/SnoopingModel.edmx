@@ -23,8 +23,7 @@
           </Key>
           <Property Name="UserInfoID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="70" Nullable="false" />
           <Property Name="Age" Type="int" Nullable="false" />
           <Property Name="EMail" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
@@ -55,6 +54,7 @@
           <Property Name="Snoop" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="ImageGuid" Type="uniqueidentifier" />
           <Property Name="DateSnoop" Type="datetime" Nullable="false" />
+          <Property Name="Private" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_UsersInfo_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -88,8 +88,6 @@
             <PropertyRef Name="UserInfoID" />
           </Key>
           <Property Name="UserInfoID" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
           <Property Name="EMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
@@ -97,6 +95,7 @@
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="SnoopingDBModel.FK_UsersInfo_Users" FromRole="UsersInfo" ToRole="Users" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
@@ -113,6 +112,7 @@
           <Property Name="Snoop" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ImageGuid" Type="Guid" />
           <Property Name="DateSnoop" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Private" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityContainer Name="SnoopingDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" />
@@ -168,10 +168,9 @@
           <EntitySetMapping Name="UsersInfo">
             <EntityTypeMapping TypeName="SnoopingDBModel.UsersInfo">
               <MappingFragment StoreEntitySet="UsersInfo">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserInfoID" ColumnName="UserInfoID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="EMail" ColumnName="EMail" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
@@ -191,6 +190,7 @@
           <EntitySetMapping Name="Snoops">
             <EntityTypeMapping TypeName="SnoopingDBModel.Snoops">
               <MappingFragment StoreEntitySet="Snoops">
+                <ScalarProperty Name="Private" ColumnName="Private" />
                 <ScalarProperty Name="SnoopID" ColumnName="SnoopID" />
                 <ScalarProperty Name="Snoop" ColumnName="Snoop" />
                 <ScalarProperty Name="ImageGuid" ColumnName="ImageGuid" />

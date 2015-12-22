@@ -15,14 +15,13 @@ namespace MardomEvaluationTest.Models
     public partial class UsersInfo
     {
         public int UserInfoID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public int Age { get; set; }
         public string EMail { get; set; }
         public System.DateTime DateCreated { get; set; }
         public System.DateTime DateModified { get; set; }
         public bool Status { get; set; }
         public int UserID { get; set; }
+        public string FullName { get; set; }
     
         public virtual Users Users { get; set; }
     }

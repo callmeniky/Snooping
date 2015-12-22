@@ -73,6 +73,10 @@ namespace MardomEvaluationTest.Models
     public class RegisterModel
     {
         [Required]
+        [Display(Name = "Nombre Completo")]
+        public string FullName { get; set; }
+
+        [Required]
         [Display(Name = "Nombre de usuario")]
         public string UserName { get; set; }
 
@@ -82,10 +86,14 @@ namespace MardomEvaluationTest.Models
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
-        public string ConfirmPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirmar contraseña")]
+        //[Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        //public string ConfirmPassword { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Correo Electrónico")]
+        public string EMail { get; set; }
     }
 
     public class ExternalLogin

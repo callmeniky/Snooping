@@ -18,5 +18,6 @@ namespace MardomEvaluationTest.Models
         public string Snoop { get; set; }
         public Nullable<System.Guid> ImageGuid { get; set; }
         public System.DateTime DateSnoop { get; set; }
+        public bool Private { get; set; }
     }
 }
