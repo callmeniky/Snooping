@@ -19,8 +19,8 @@ body {
 }
 
 .btn-default:hover {
-    color: hsl(206, 72%, 64%) !important;
-    background-color: #fff !important;
+    /*color: hsl(206, 72%, 64%) !important;*/
+    background-color: #01B1AF !important;
     border-color: #01B1AF !important;
 }
 

@@ -19,6 +19,7 @@ namespace MardomEvaluationTest.Controllers
     {
         //
         // GET: /Account/Login
+        private SnoopingDBEntities _dbContext = new SnoopingDBEntities();
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -42,7 +43,7 @@ namespace MardomEvaluationTest.Controllers
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             ModelState.AddModelError("", "El nombre de usuario o la contraseña especificados son incorrectos.");
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -81,6 +82,8 @@ namespace MardomEvaluationTest.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
+                    //_dbContext.Users
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -90,7 +93,7 @@ namespace MardomEvaluationTest.Controllers
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         //
