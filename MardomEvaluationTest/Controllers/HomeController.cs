@@ -8,9 +8,9 @@ namespace MardomEvaluationTest.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string mensaje = "")
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            ViewBag.Message = mensaje;
 
             return View();
         }
