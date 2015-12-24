@@ -8,9 +8,16 @@
         <EntityTypeShape EntityType="SnoopingDBModel.UsersInfo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SnoopingDBModel.Images" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SnoopingDBModel.Snoops" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SnoopingDBModel.Users" Width="1.5" PointX="0.75" PointY="6" />
-        <AssociationConnector Association="SnoopingDBModel.FK_UsersInfo_Users" />
         <EntityTypeShape EntityType="SnoopingDBModel.Follows" Width="1.5" PointX="5.375" PointY="3.75" />
+        <AssociationConnector Association="SnoopingDBModel.FK_Images_Images" />
+        <AssociationConnector Association="SnoopingDBModel.FK_Snoops_Images" />
+        <EntityTypeShape EntityType="SnoopingDBModel.UserProfile" Width="1.5" PointX="0.5" PointY="6.125" />
+        <EntityTypeShape EntityType="SnoopingDBModel.webpages_Membership" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SnoopingDBModel.webpages_OAuthMembership" Width="1.5" PointX="8.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SnoopingDBModel.webpages_Roles" Width="1.5" PointX="3.375" PointY="6.875" />
+        <AssociationConnector Association="SnoopingDBModel.webpages_UsersInRoles" />
+        <AssociationConnector Association="SnoopingDBModel.FK_Snoops_UserProfile" />
+        <AssociationConnector Association="SnoopingDBModel.FK_UsersInfo_UserProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

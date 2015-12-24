@@ -22,7 +22,8 @@ namespace MardomEvaluationTest.Models
         public bool Status { get; set; }
         public int UserID { get; set; }
         public string FullName { get; set; }
+        public byte[] Photo { get; set; }
     
-        public virtual Users Users { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }

@@ -14,7 +14,14 @@ namespace MardomEvaluationTest.Models
     
     public partial class Images
     {
+        public Images()
+        {
+            this.Snoops = new HashSet<Snoops>();
+        }
+    
         public System.Guid ImageGuid { get; set; }
         public byte[] ImageBin { get; set; }
+    
+        public virtual ICollection<Snoops> Snoops { get; set; }
     }
 }

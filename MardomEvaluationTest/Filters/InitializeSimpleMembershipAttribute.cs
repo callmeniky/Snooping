@@ -25,11 +25,11 @@ namespace MardomEvaluationTest.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<SnoopingDBEntities>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new SnoopingDBEntities())
                     {
                         if (!context.Database.Exists())
                         {
@@ -38,7 +38,7 @@ namespace MardomEvaluationTest.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserID", "UserName", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {

@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebMatrix.WebData;
 
 namespace MardomEvaluationTest
 {
@@ -23,6 +24,9 @@ namespace MardomEvaluationTest
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+      //   WebSecurity.InitializeDatabaseConnection("SnoopingDBEntities", "UserProfile", "UserID", "UserName", autoCreateTables: true);
+             
         }
     }
 }

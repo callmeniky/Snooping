@@ -35,13 +35,18 @@
                     <span class="separator">·</span>
                     <a class="forgot" href="/account/begin_password_reset">¿Olvidaste tu contraseña?</a>
                 </div>
+                
+                <span class="alert-danger">@ViewBag.Error</span>
 
             }
         </div>
 
         <div class="col-md-8 registrar" style="width: 83.666667%;">
             <h2 style="width: 100%; text-align: center;"><i>¿Aún no eres un Snooper?</i></h2>
-            <form class="float-right" style="padding-right: 2px; width: 100%;">
+            @*<form class="float-right" style="padding-right: 2px; width: 100%;">*@
+                @using(Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "float-right", style = "width: 100%"}))
+                { 
+                    @Html.AntiForgeryToken();
                 <div class="form-group">
                     <input type="text" class="form-control" autocomplete="off" name="FullName" maxlength="20" placeholder="Nombre completo">
                 </div>
@@ -59,7 +64,7 @@
                         Regístrate en Snooping
                     </button>
                 </div>
-            </form>
+                }
         </div>
     </div>
 }

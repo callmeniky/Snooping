@@ -36,13 +36,20 @@ namespace MardomEvaluationTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
+            var mensaje = string.Empty;
+
+            if(!Membership.ValidateUser(model.UserName, model.Password))
+                mensaje = "El nombre de usuario o la contraseña especificados son incorrectos.";
+
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
 
+            ViewBag.Error = mensaje;
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            ModelState.AddModelError("", "El nombre de usuario o la contraseña especificados son incorrectos.");
+          
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -80,10 +87,23 @@ namespace MardomEvaluationTest.Controllers
                 // Intento de registrar al usuario
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                   if(!WebSecurity.UserExists(model.UserName))
+                   { 
+                  WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    //_dbContext.Users
 
+                    var userInfo = new UsersInfo()
+                    {
+                        EMail = model.EMail,
+                        FullName = model.FullName,
+                        UserID = WebSecurity.GetUserId(model.UserName),
+                        DateCreated = DateTime.Now,
+                        DateModified = DateTime.Now
+                    };
+
+                    _dbContext.UsersInfo.Add(userInfo);
+                    _dbContext.SaveChanges();
+                }
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -266,14 +286,14 @@ namespace MardomEvaluationTest.Controllers
             if (ModelState.IsValid)
             {
                 // Insertar un nuevo usuario en la base de datos
-                using (UsersContext db = new UsersContext())
+                using (SnoopingDBEntities db = new SnoopingDBEntities())
                 {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                    UserProfile user = db.UserProfile.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Comprobar si el usuario ya existe
                     if (user == null)
                     {
                         // Insertar el nombre en la tabla de perfiles
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+                        db.UserProfile.Add(new UserProfile { UserName = model.UserName });
                         db.SaveChanges();
 
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);

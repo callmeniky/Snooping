@@ -5,25 +5,61 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SnoopingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Users">
+        <EntityType Name="UserProfile">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IsApproved" Type="bit" Nullable="false" />
-          <Property Name="IsLockout" Type="bit" Nullable="false" />
-          <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ProviderUserId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UsersInfo">
           <Key>
             <PropertyRef Name="UserInfoID" />
           </Key>
-          <Property Name="UserInfoID" Type="int" Nullable="false" />
+          <Property Name="UserInfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="FullName" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
           <Property Name="Age" Type="int" Nullable="false" />
           <Property Name="EMail" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
@@ -44,23 +80,84 @@
             <PropertyRef Name="ImageGuid" />
           </Key>
           <Property Name="ImageGuid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ImageBin" Type="varbinary" MaxLength="1" Nullable="false" />
+          <Property Name="ImageBin" Type="varbinary(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Snoops">
           <Key>
             <PropertyRef Name="SnoopID" />
           </Key>
-          <Property Name="SnoopID" Type="int" Nullable="false" />
+          <Property Name="SnoopID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Snoop" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="ImageGuid" Type="uniqueidentifier" />
           <Property Name="DateSnoop" Type="datetime" Nullable="false" />
           <Property Name="Private" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK_UsersInfo_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+        <Association Name="FK_Images_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="1" />
+          <End Role="Images1" Type="Self.Images" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Images1">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_RoleId">
+          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="webpages_Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Snoops_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Snoops" Type="Self.Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Snoops_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Snoops" Type="Self.Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserId">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="webpages_UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersInfo_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
           <End Role="UsersInfo" Type="Self.UsersInfo" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="UserProfile">
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="UsersInfo">
@@ -69,13 +166,37 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SnoopingDBModelStoreContainer">
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="Profile" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" Schema="Profile" store:Type="Tables" />
           <EntitySet Name="Follows" EntityType="Self.Follows" Schema="Social" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="Social" store:Type="Tables" />
           <EntitySet Name="Snoops" EntityType="Self.Snoops" Schema="Social" store:Type="Tables" />
-          <AssociationSet Name="FK_UsersInfo_Users" Association="Self.FK_UsersInfo_Users">
-            <End Role="Users" EntitySet="Users" />
+          <AssociationSet Name="FK_Images_Images" Association="Self.FK_Images_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Images1" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_Images" Association="Self.FK_Snoops_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_UserProfile" Association="Self.FK_Snoops_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersInfo_UserProfile" Association="Self.FK_UsersInfo_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UsersInfo" EntitySet="UsersInfo" />
           </AssociationSet>
         </EntityContainer>
@@ -94,15 +215,17 @@
           <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="SnoopingDBModel.FK_UsersInfo_Users" FromRole="UsersInfo" ToRole="Users" />
           <Property Name="FullName" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.FK_UsersInfo_UserProfile" FromRole="UsersInfo" ToRole="UserProfile" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
             <PropertyRef Name="ImageGuid" />
           </Key>
           <Property Name="ImageGuid" Type="Guid" Nullable="false" />
-          <Property Name="ImageBin" Type="Binary" MaxLength="1" FixedLength="false" Nullable="false" />
+          <Property Name="ImageBin" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Snoops" Relationship="SnoopingDBModel.FK_Snoops_Images" FromRole="Images" ToRole="Snoops" />
         </EntityType>
         <EntityType Name="Snoops">
           <Key>
@@ -113,43 +236,40 @@
           <Property Name="ImageGuid" Type="Guid" />
           <Property Name="DateSnoop" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Private" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="SnoopingDBModel.FK_Snoops_Images" FromRole="Snoops" ToRole="Images" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.FK_Snoops_UserProfile" FromRole="Snoops" ToRole="UserProfile" />
         </EntityType>
         <EntityContainer Name="SnoopingDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" />
           <EntitySet Name="Images" EntityType="Self.Images" />
           <EntitySet Name="Snoops" EntityType="Self.Snoops" />
-          <EntitySet Name="Users" EntityType="SnoopingDBModel.Users" />
-          <AssociationSet Name="FK_UsersInfo_Users" Association="SnoopingDBModel.FK_UsersInfo_Users">
-            <End Role="Users" EntitySet="Users" />
+          <EntitySet Name="Follows" EntityType="SnoopingDBModel.Follows" />
+          <AssociationSet Name="FK_Images_Images" Association="SnoopingDBModel.FK_Images_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Images1" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_Images" Association="SnoopingDBModel.FK_Snoops_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <EntitySet Name="UserProfile" EntityType="SnoopingDBModel.UserProfile" />
+          <EntitySet Name="webpages_Membership" EntityType="SnoopingDBModel.webpages_Membership" />
+          <EntitySet Name="webpages_OAuthMembership" EntityType="SnoopingDBModel.webpages_OAuthMembership" />
+          <EntitySet Name="webpages_Roles" EntityType="SnoopingDBModel.webpages_Roles" />
+          <AssociationSet Name="webpages_UsersInRoles" Association="SnoopingDBModel.webpages_UsersInRoles">
+            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_UserProfile" Association="SnoopingDBModel.FK_Snoops_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersInfo_UserProfile" Association="SnoopingDBModel.FK_UsersInfo_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UsersInfo" EntitySet="UsersInfo" />
           </AssociationSet>
-          <EntitySet Name="Follows" EntityType="SnoopingDBModel.Follows" />
         </EntityContainer>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <Property Name="IsLockout" Type="Boolean" Nullable="false" />
-          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UsersInfo" Relationship="SnoopingDBModel.FK_UsersInfo_Users" FromRole="Users" ToRole="UsersInfo" />
-        </EntityType>
-        <Association Name="FK_UsersInfo_Users">
-          <End Type="SnoopingDBModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="SnoopingDBModel.UsersInfo" Role="UsersInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UsersInfo">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Follows">
           <Key>
             <PropertyRef Name="UserFollowerID" />
@@ -159,6 +279,101 @@
           <Property Name="UserFollowedID" Type="Int32" Nullable="false" />
           <Property Name="DateFollow" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <Association Name="FK_Images_Images">
+          <End Type="SnoopingDBModel.Images" Role="Images" Multiplicity="1" />
+          <End Type="SnoopingDBModel.Images" Role="Images1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Images1">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Snoops_Images">
+          <End Type="SnoopingDBModel.Images" Role="Images" Multiplicity="0..1" />
+          <End Type="SnoopingDBModel.Snoops" Role="Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="webpages_Roles" Relationship="SnoopingDBModel.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+          <NavigationProperty Name="Snoops" Relationship="SnoopingDBModel.FK_Snoops_UserProfile" FromRole="UserProfile" ToRole="Snoops" />
+          <NavigationProperty Name="UsersInfo" Relationship="SnoopingDBModel.FK_UsersInfo_UserProfile" FromRole="UserProfile" ToRole="UsersInfo" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+          <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="webpages_OAuthMembership">
+          <Key>
+            <PropertyRef Name="Provider" />
+            <PropertyRef Name="ProviderUserId" />
+          </Key>
+          <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="webpages_Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="webpages_UsersInRoles">
+          <End Type="SnoopingDBModel.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Snoops_UserProfile">
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="SnoopingDBModel.Snoops" Role="Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersInfo_UserProfile">
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="SnoopingDBModel.UsersInfo" Role="UsersInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UsersInfo">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -168,6 +383,7 @@
           <EntitySetMapping Name="UsersInfo">
             <EntityTypeMapping TypeName="SnoopingDBModel.UsersInfo">
               <MappingFragment StoreEntitySet="UsersInfo">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserInfoID" ColumnName="UserInfoID" />
@@ -190,24 +406,12 @@
           <EntitySetMapping Name="Snoops">
             <EntityTypeMapping TypeName="SnoopingDBModel.Snoops">
               <MappingFragment StoreEntitySet="Snoops">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Private" ColumnName="Private" />
                 <ScalarProperty Name="SnoopID" ColumnName="SnoopID" />
                 <ScalarProperty Name="Snoop" ColumnName="Snoop" />
                 <ScalarProperty Name="ImageGuid" ColumnName="ImageGuid" />
                 <ScalarProperty Name="DateSnoop" ColumnName="DateSnoop" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="SnoopingDBModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="IsLockout" ColumnName="IsLockout" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -220,6 +424,56 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="SnoopingDBModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Membership">
+            <EntityTypeMapping TypeName="SnoopingDBModel.webpages_Membership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_OAuthMembership">
+            <EntityTypeMapping TypeName="SnoopingDBModel.webpages_OAuthMembership">
+              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="webpages_Roles">
+            <EntityTypeMapping TypeName="SnoopingDBModel.webpages_Roles">
+              <MappingFragment StoreEntitySet="webpages_Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="SnoopingDBModel.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
+            <EndProperty Name="UserProfile">
+              <ScalarProperty Name="UserID" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="webpages_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

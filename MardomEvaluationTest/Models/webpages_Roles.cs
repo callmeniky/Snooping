@@ -12,16 +12,16 @@ namespace MardomEvaluationTest.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Snoops
+    public partial class webpages_Roles
     {
-        public int SnoopID { get; set; }
-        public string Snoop { get; set; }
-        public Nullable<System.Guid> ImageGuid { get; set; }
-        public System.DateTime DateSnoop { get; set; }
-        public bool Private { get; set; }
-        public int UserID { get; set; }
+        public webpages_Roles()
+        {
+            this.UserProfile = new HashSet<UserProfile>();
+        }
     
-        public virtual Images Images { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+    
+        public virtual ICollection<UserProfile> UserProfile { get; set; }
     }
 }

@@ -12,21 +12,10 @@ namespace MardomEvaluationTest.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class webpages_OAuthMembership
     {
-        public Users()
-        {
-            this.UsersInfo = new HashSet<UsersInfo>();
-        }
-    
-        public int UserID { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string PasswordSalt { get; set; }
-        public bool IsApproved { get; set; }
-        public bool IsLockout { get; set; }
-        public Nullable<System.DateTime> LastLoginDate { get; set; }
-    
-        public virtual ICollection<UsersInfo> UsersInfo { get; set; }
+        public string Provider { get; set; }
+        public string ProviderUserId { get; set; }
+        public int UserId { get; set; }
     }
 }

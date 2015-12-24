@@ -1,10 +1,75 @@
-﻿
-@{
-    ViewBag.Title = "Home Page";
-    Layout = null;
+﻿@if (Request.IsAuthenticated)
+{
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+else
+{
+    {
+        Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    }
+    <div class="row">
+        <div class="col-md-1" style="margin-left: -37px;">
+            <img src="~/Images/snoop.gif" style="margin-left: -209px; margin-top: 205px;" />
+        </div>
+        <div class="col-md-8 iniciar" style="width: 83.666667%;">
+            @using (Html.BeginForm("Login", "Account"))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <input type="text" id="signin-email" class="form-control email-input" name="UserName" autocomplete="on" placeholder="Teléfono, correo o usuario" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signin-password" class="form-control" name="Password" placeholder="Contraseña" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default" style="width:100%">
+                        Iniciar sesión
+                    </button>
+                </div>
+                <div class="remember-forgot form-group" style="text-align: center">
+                    <label class="t1-label remember">
+                        <input type="checkbox" value="1" name="remember_me" checked="checked">
+                        <span>Recordar mis datos</span>
+                    </label>
+                    <span class="separator">·</span>
+                    <a class="forgot" href="/account/begin_password_reset">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <span class="alert-danger">@ViewBag.Error</span>
+
+            }
+        </div>
+
+        <div class="col-md-8 registrar" style="width: 83.666667%;">
+            <h2 style="width: 100%; text-align: center;"><i>¿Aún no eres un Snooper?</i></h2>
+            @*<form class="float-right" style="padding-right: 2px; width: 100%;">*@
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "float-right", style = "width: 100%" }))
+            {
+                @Html.AntiForgeryToken();
+                <div class="form-group">
+                    <input type="text" class="form-control" autocomplete="off" name="FullName" maxlength="20" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" autocomplete="off" name="UserName" maxlength="20" placeholder="Nombre de Usuario" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control email-input" autocomplete="off" name="EMail" placeholder="Correo electrónico" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="Password" placeholder="Contraseña" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default" style=" width: 100%;">
+                        Regístrate en Snooping
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
 }
 
- @{Html.RenderPartial("_LoginPartial");}
  
 
 
