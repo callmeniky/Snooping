@@ -83,7 +83,7 @@
                     <div class="content-wrapper">
                         <div class="float-left" style="margin-left: -292px;">
                             <p class="site-title">
-                                @*<img src="~/Images/snooping.png" style="width: 27px;"/>*@  @Html.ActionLink("Snooping", "Index", "Home")
+                                @*<img src="~/Images/snooping.png" style="width: 27px;"/>*@ @Html.ActionLink("Snooping", "Index", "Home")
                             </p>
                         </div>
                         <div class="float-right" style="margin-right: -297px; margin-top: 4px;">
@@ -144,8 +144,8 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <button type="button" class="btn btn-default" aria-label="Left Align">
-                                       <span class=" glyphicon glyphicon-home" aria-hidden="true">@Html.ActionLink("Inicio", "Index", "Home")</span>
+                                    <button type="button" class="home btn btn-default" aria-label="Left Align">
+                                       <span class=" glyphicon glyphicon-home" aria-hidden="true"></span>
                                     </button>
                                     <a href="#"><span class="badge" style="background-color: #d9534f">42</span>Mensajes</a>
                                     <a href="#"><span class="badge" style="background-color: #F0AD4E">42</span>Notificaciones</a>
@@ -202,64 +202,7 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <form role="form">
-                                        <div class="row form-group">
-                                            <div class="col-md-4">
-                                                <img src="@Html.Action("ObtenerFoto", "Profile")" alt="..." class="img-thumbnail" width="100" height="75"/></div>
-                                            <div class="col-md-8">
-                                                <p class="help-block"><strong>Niskeydi E. Michel Z.</strong></p>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <ul class="list-unstyled">
-                                                    <li>
-                                                        <a>
-                                                            <span>
-                                                                2 Seguidores
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a>
-                                                            <span>
-                                                                3 Seguidos
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>¡Lo que más <span style="color:#01B1AF !important;">#Suena</span>!</label>
-
-                                        </div>
-                                        <div class="form-group" @*style="border-color: #01B1AF; border-style: double;"*@>
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                    <span><a>#RomeoSantos</a></span> | <span><a>#Shakira</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- /.col-lg-6 (nested) -->
-                                <div class="col-lg-6" style="overflow: auto">
-                                    <form role="form">
-                                        <fieldset disabled>
-                                            <div class="form-group">
-
-                                               @RenderBody();
-                                                                                        
-                                                <div class="col-md-8">
-                                                    <span class="text-center"><a>¿Ver más?</a></span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </form>
-                                </div>
-                                <!-- /.col-lg-6 (nested) -->
-                            </div>
+                            @RenderBody();
                             <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
