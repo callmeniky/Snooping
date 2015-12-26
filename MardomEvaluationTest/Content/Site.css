@@ -32,6 +32,10 @@ button.btn-default {
     color: #ECECEC;
 }
 
+span.votos:hover{
+    color: red;
+}
+
 /*#body
 {
       background-image: url(../Images/slide5.jpg);

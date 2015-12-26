@@ -10,6 +10,7 @@ namespace MardomEvaluationTest.Models.ViewModels
        public String Snoop { get; set; }
        public bool Private { get; set; }
        public Byte[] Image { get; set; }
+       public int UserID { get; set; }
 
     }
 

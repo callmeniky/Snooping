@@ -7,6 +7,8 @@ using MardomEvaluationTest.Models;
 using MardomEvaluationTest.Models.ViewModels;
 using MardomEvaluationTest.Filters;
 using System.Web.Security;
+using System.Security.Policy;
+using MardomEvaluationTest.Utilities;
 
 namespace MardomEvaluationTest.Controllers
 {
@@ -48,8 +50,10 @@ namespace MardomEvaluationTest.Controllers
             foreach (var snoop in listSnoobs)
             {
                 snoopView = new SnoopViewModel(snoop);
+                snoopView.Snoop = HashTag.GetHashTag(snoopView.Snoop);
                 lstSnoopsView.Add(snoopView);
             }
+            
 
             return View("Index", lstSnoopsView);
         }

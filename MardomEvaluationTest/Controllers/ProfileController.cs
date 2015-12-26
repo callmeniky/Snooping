@@ -52,6 +52,22 @@ namespace MardomEvaluationTest.Controllers
             return imgSrc;
         }
 
+        public string ObtenerFotoPorUsuario(string username)
+        {
+            var userPhoto = _dbContext.UsersInfo.First(r => r.UserProfile.UserName == username).Photo;
+
+            var imgSrc = string.Empty;
+
+            if (userPhoto != null)
+            {
+                var base64 = Convert.ToBase64String(userPhoto);
+                imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+            }
+
+            return imgSrc;
+        }
+
+  
         public class UserPhoto
         {
             public byte[] Foto { get; set; }
