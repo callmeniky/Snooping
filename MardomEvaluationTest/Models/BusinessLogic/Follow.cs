@@ -10,7 +10,7 @@ namespace MardomEvaluationTest.Models.BusinessLogic
 {
     public class Follow
     {
-        private SnoopingDBEntities _snoopindDB = new SnoopingDBEntities();
+        private SnoopingDBEntities _snoopingDB = new SnoopingDBEntities();
 
         //u => User
         public bool Seguir(string uFollower, string uFollowed)
@@ -20,10 +20,10 @@ namespace MardomEvaluationTest.Models.BusinessLogic
             var followerCount = new FollowsCount();
             var followedCount = new FollowsCount();
 
-            var follower = _snoopindDB.UserProfile.FirstOrDefault(
+            var follower = _snoopingDB.UserProfile.FirstOrDefault(
                 r => r.UserName == uFollower.Trim());
 
-            var followed = _snoopindDB.UserProfile.FirstOrDefault(
+            var followed = _snoopingDB.UserProfile.FirstOrDefault(
                 r => r.UserName == uFollowed.Trim());
 
 
@@ -35,10 +35,10 @@ namespace MardomEvaluationTest.Models.BusinessLogic
                 
             };
 
-            _snoopindDB.Follows.Add(follow);
+            _snoopingDB.Follows.Add(follow);
 
 
-            followedCount = _snoopindDB.FollowsCount.FirstOrDefault(
+            followedCount = _snoopingDB.FollowsCount.FirstOrDefault(
                 r => r.UsersInfo.UserID == followed.UserID);
 
             if (followedCount == null)
@@ -46,16 +46,16 @@ namespace MardomEvaluationTest.Models.BusinessLogic
                 followedCount = new FollowsCount()
                  {
                      UsersInfo = followed.UsersInfo.FirstOrDefault(),
-                     FollowersCount = +1
+                     FollowersCount =+ 1
                  };
 
-                _snoopindDB.FollowsCount.Add(followedCount);
+                _snoopingDB.FollowsCount.Add(followedCount);
             }else
             {
-                followedCount.FollowersCount = +1;
+                followedCount.FollowersCount += 1;
             }
 
-            followerCount = _snoopindDB.FollowsCount.FirstOrDefault(
+            followerCount = _snoopingDB.FollowsCount.FirstOrDefault(
                 r => r.UsersInfo.UserID == follower.UserID);
 
             if (followerCount == null)
@@ -63,16 +63,16 @@ namespace MardomEvaluationTest.Models.BusinessLogic
                 followerCount = new FollowsCount()
                  {
                      UsersInfo = follower.UsersInfo.FirstOrDefault(),
-                     FollowedCount = +1
+                     FollowedCount =+ 1
                  };
 
-                _snoopindDB.FollowsCount.Add(followerCount);
+                _snoopingDB.FollowsCount.Add(followerCount);
             }else
             {
-                followerCount.FollowedCount =+ 1;
+                followerCount.FollowedCount += 1;
             }
 
-            result = _snoopindDB.SaveChanges() > 0 ? true : false;
+            result = _snoopingDB.SaveChanges() > 0 ? true : false;
 
             return result;
         }
@@ -81,35 +81,34 @@ namespace MardomEvaluationTest.Models.BusinessLogic
         {
             bool result = false;
 
-            var follower = _snoopindDB.UserProfile.FirstOrDefault(
-                r => r.UserName == uFollower.Trim());
+            var follow = _snoopingDB.Follows.FirstOrDefault(
+                r => r.UserProfile.UserName == uFollower
+                && r.UserProfile1.UserName == uFollowed);
 
-            var followed = _snoopindDB.UserProfile.FirstOrDefault(
-                r => r.UserName == uFollowed.Trim());
+            _snoopingDB.Follows.Remove(follow);
 
-            var newFollow = new Follows()
-            {
-                UserFollowerID = follower.UserID,
-                UserFollowedID = followed.UserID,
-                DateFollow = DateTime.Now
+            var followedCount = _snoopingDB.FollowsCount.FirstOrDefault(
+                r => r.UsersInfo.UserProfile.UserName == uFollowed.Trim());
 
-            };
+            followedCount.FollowersCount -= 1;
 
-            var followedCount = new FollowsCount()
-            {
-                UsersInfo = followed.UsersInfo.FirstOrDefault(),
-                FollowedCount = +1
-            };
+            var followerCount = _snoopingDB.FollowsCount.FirstOrDefault(
+            r => r.UsersInfo.UserProfile.UserName == uFollower.Trim());
 
-            var followerCount = new FollowsCount()
-            {
-                UsersInfo = follower.UsersInfo.FirstOrDefault(),
-                FollowersCount = +1
-            };
-
-            result = _snoopindDB.SaveChanges() > 0 ? true : false;
+            followerCount.FollowedCount -= 1;
+          
+            result = _snoopingDB.SaveChanges() > 0 ? true : false;
 
             return result;
+        }
+
+        public bool VerificarEsSeguidor(string followed, int currentUser)
+        {
+           var esSeguidor = _snoopingDB.Follows.FirstOrDefault(
+              r => r.UserFollowerID == currentUser 
+                  && r.UserProfile.UserName == followed) == null ? false : true;
+
+           return esSeguidor;
         }
     }
 }

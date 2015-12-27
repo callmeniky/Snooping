@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MardomEvaluationTest.Models.BusinessLogic;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Infraestructure.ViewModels;
+using WebMatrix.WebData;
 
 namespace MardomEvaluationTest.Controllers
 {
@@ -19,12 +20,25 @@ namespace MardomEvaluationTest.Controllers
             return View();
         }
 
-        public ActionResult Seguir(string followed)
+        public ActionResult DejarDeSeguir(string followed)
         {
+            bool result = false;
             var objFollow = new Follow();
             string follower = WebMatrix.WebData.WebSecurity.CurrentUserName;
 
-            bool result = objFollow.Seguir(follower, followed);
+            result = objFollow.DejarDeSeguir(follower, followed);
+
+            return Json(new { Result = result });
+
+        }
+
+        public ActionResult Seguir(string followed)
+        {
+            bool result = false;
+            var objFollow = new Follow();
+            string follower = WebMatrix.WebData.WebSecurity.CurrentUserName;
+          
+            result = objFollow.Seguir(follower, followed);      
 
             return Json(new { Result = result });
         }
