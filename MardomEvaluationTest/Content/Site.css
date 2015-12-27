@@ -18,11 +18,11 @@ body {
     padding-right: 35px;
 }
 
-.btn-default:hover {
-    /*color: hsl(206, 72%, 64%) !important;*/
-    background-color: #01B1AF !important;
-    border-color: #01B1AF !important;
-}
+/*button.btn-default:hover {
+    background-color: #ECECEC !important;
+    background-image: linear-gradient(to bottom, #ECECEC 0%, #ECECEC 100%);
+    color: #01B1AF;
+}*/
 
 
 

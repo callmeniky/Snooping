@@ -28,7 +28,7 @@ namespace MardomEvaluationTest.Controllers
         {
             var userId = WebMatrix.WebData.WebSecurity.CurrentUserId;
 
-            var userInfo = _dbContext.UsersInfo.First(r => r.UserID == userId);
+            var userInfo = _dbContext.UsersInfo.FirstOrDefault(r => r.UserID == userId);
 
             userInfo.Photo = userPhoto.Foto;
 
@@ -39,8 +39,11 @@ namespace MardomEvaluationTest.Controllers
 
         public string ObtenerFoto()
         {
+            byte[] userPhoto = null;
             var userId = WebSecurity.CurrentUserId;
-            var userPhoto = _dbContext.UsersInfo.First(
+
+            if(userId > 0)
+              userPhoto = _dbContext.UsersInfo.FirstOrDefault(
                 r => r.UserID == userId).Photo;
 
             var imgSrc = string.Empty;
@@ -55,7 +58,7 @@ namespace MardomEvaluationTest.Controllers
 
         public string ObtenerFotoPorUsuario(string username)
         {
-            var userPhoto = _dbContext.UsersInfo.First(r => r.UserProfile.UserName == username).Photo;
+            var userPhoto = _dbContext.UsersInfo.FirstOrDefault(r => r.UserProfile.UserName == username).Photo;
 
             var imgSrc = string.Empty;
 
@@ -70,13 +73,25 @@ namespace MardomEvaluationTest.Controllers
 
         public ActionResult Perfiles(string criterio)
         {
-            var perfiles = MardomEvaluationTest.Models.BusinessLogic.Perfiles.ObtenerPerfilesPorNombre(criterio);
-            return View("_perfiles", perfiles);
+            var perfiles = new Perfiles();
+            var lstPerfiles = perfiles.ObtenerPerfilesPorNombre(criterio);
+            return View("_perfiles", lstPerfiles);
         }
 
         public ActionResult BuscarPerfil(string username)
         {
-            var perfil = MardomEvaluationTest.Models.BusinessLogic.Perfiles.ObtenerPerfil(username);
+            var perfiles = new Perfiles();
+            int followers = 0;
+            int followed = 0;
+            bool esSeguidor = false;
+
+            var perfil = perfiles.ObtenerPerfil(username, WebSecurity.CurrentUserId, out followers, out followed, ref esSeguidor);
+            var infoFollow = _dbContext.FollowsCount.FirstOrDefault(
+                r => r.UsersInfo.UserProfile.UserName == username.Trim());
+
+            ViewBag.Followers = followers;
+            ViewBag.Followed = followed;
+            ViewBag.EsSeguidor = esSeguidor;
 
             return View("_perfil", perfil);
         }
