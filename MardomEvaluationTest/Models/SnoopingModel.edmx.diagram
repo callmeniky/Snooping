@@ -18,6 +18,10 @@
         <AssociationConnector Association="SnoopingDBModel.webpages_UsersInRoles" />
         <AssociationConnector Association="SnoopingDBModel.FK_Snoops_UserProfile" />
         <AssociationConnector Association="SnoopingDBModel.FK_UsersInfo_UserProfile" />
+        <EntityTypeShape EntityType="SnoopingDBModel.FollowsCount" Width="1.5" PointX="3" PointY="9.375" />
+        <AssociationConnector Association="SnoopingDBModel.FK_FollowsCount_UsersInfo" />
+        <AssociationConnector Association="SnoopingDBModel.FK_Followed_UserProfile" />
+        <AssociationConnector Association="SnoopingDBModel.FK_Followers_UserProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SnoopingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FollowsCount">
+          <Key>
+            <PropertyRef Name="UserInfoID" />
+          </Key>
+          <Property Name="UserInfoID" Type="int" Nullable="false" />
+          <Property Name="FollowersCount" Type="int" Nullable="false" />
+          <Property Name="FollowedCount" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserProfile">
           <Key>
             <PropertyRef Name="UserID" />
@@ -93,6 +101,42 @@
           <Property Name="DateSnoop" Type="datetime" Nullable="false" />
           <Property Name="Private" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Followed_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Follows" Type="Self.Follows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Follows">
+              <PropertyRef Name="UserFollowedID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Followers_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Follows" Type="Self.Follows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Follows">
+              <PropertyRef Name="UserFollowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FollowsCount_UsersInfo">
+          <End Role="UsersInfo" Type="Self.UsersInfo" Multiplicity="1" />
+          <End Role="FollowsCount" Type="Self.FollowsCount" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UsersInfo">
+              <PropertyRef Name="UserInfoID" />
+            </Principal>
+            <Dependent Role="FollowsCount">
+              <PropertyRef Name="UserInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Images_Images">
           <End Role="Images" Type="Self.Images" Multiplicity="1" />
           <End Role="Images1" Type="Self.Images" Multiplicity="0..1" />
@@ -166,6 +210,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SnoopingDBModelStoreContainer">
+          <EntitySet Name="FollowsCount" EntityType="Self.FollowsCount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
@@ -175,6 +220,18 @@
           <EntitySet Name="Follows" EntityType="Self.Follows" Schema="Social" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="Social" store:Type="Tables" />
           <EntitySet Name="Snoops" EntityType="Self.Snoops" Schema="Social" store:Type="Tables" />
+          <AssociationSet Name="FK_Followed_UserProfile" Association="Self.FK_Followed_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Follows" EntitySet="Follows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Followers_UserProfile" Association="Self.FK_Followers_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Follows" EntitySet="Follows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FollowsCount_UsersInfo" Association="Self.FK_FollowsCount_UsersInfo">
+            <End Role="UsersInfo" EntitySet="UsersInfo" />
+            <End Role="FollowsCount" EntitySet="FollowsCount" />
+          </AssociationSet>
           <AssociationSet Name="FK_Images_Images" Association="Self.FK_Images_Images">
             <End Role="Images" EntitySet="Images" />
             <End Role="Images1" EntitySet="Images" />
@@ -218,6 +275,7 @@
           <Property Name="FullName" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.FK_UsersInfo_UserProfile" FromRole="UsersInfo" ToRole="UserProfile" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="FollowsCount" Relationship="SnoopingDBModel.FK_FollowsCount_UsersInfo" FromRole="UsersInfo" ToRole="FollowsCount" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
@@ -269,6 +327,19 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UsersInfo" EntitySet="UsersInfo" />
           </AssociationSet>
+          <EntitySet Name="FollowsCount" EntityType="SnoopingDBModel.FollowsCount" />
+          <AssociationSet Name="FK_FollowsCount_UsersInfo" Association="SnoopingDBModel.FK_FollowsCount_UsersInfo">
+            <End Role="UsersInfo" EntitySet="UsersInfo" />
+            <End Role="FollowsCount" EntitySet="FollowsCount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Followed_UserProfile" Association="SnoopingDBModel.FK_Followed_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Follows" EntitySet="Follows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Followers_UserProfile" Association="SnoopingDBModel.FK_Followers_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Follows" EntitySet="Follows" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Follows">
           <Key>
@@ -278,6 +349,8 @@
           <Property Name="UserFollowerID" Type="Int32" Nullable="false" />
           <Property Name="UserFollowedID" Type="Int32" Nullable="false" />
           <Property Name="DateFollow" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.FK_Followed_UserProfile" FromRole="Follows" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="SnoopingDBModel.FK_Followers_UserProfile" FromRole="Follows" ToRole="UserProfile" />
         </EntityType>
         <Association Name="FK_Images_Images">
           <End Type="SnoopingDBModel.Images" Role="Images" Multiplicity="1" />
@@ -312,6 +385,8 @@
           <NavigationProperty Name="webpages_Roles" Relationship="SnoopingDBModel.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
           <NavigationProperty Name="Snoops" Relationship="SnoopingDBModel.FK_Snoops_UserProfile" FromRole="UserProfile" ToRole="Snoops" />
           <NavigationProperty Name="UsersInfo" Relationship="SnoopingDBModel.FK_UsersInfo_UserProfile" FromRole="UserProfile" ToRole="UsersInfo" />
+          <NavigationProperty Name="Follows" Relationship="SnoopingDBModel.FK_Followed_UserProfile" FromRole="UserProfile" ToRole="Follows" />
+          <NavigationProperty Name="Follows1" Relationship="SnoopingDBModel.FK_Followers_UserProfile" FromRole="UserProfile" ToRole="Follows" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -371,6 +446,51 @@
             </Principal>
             <Dependent Role="UsersInfo">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FollowsCount">
+          <Key>
+            <PropertyRef Name="UserInfoID" />
+          </Key>
+          <Property Name="UserInfoID" Type="Int32" Nullable="false" />
+          <Property Name="FollowersCount" Type="Int32" Nullable="false" />
+          <Property Name="FollowedCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UsersInfo" Relationship="SnoopingDBModel.FK_FollowsCount_UsersInfo" FromRole="FollowsCount" ToRole="UsersInfo" />
+        </EntityType>
+        <Association Name="FK_FollowsCount_UsersInfo">
+          <End Type="SnoopingDBModel.UsersInfo" Role="UsersInfo" Multiplicity="1" />
+          <End Type="SnoopingDBModel.FollowsCount" Role="FollowsCount" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UsersInfo">
+              <PropertyRef Name="UserInfoID" />
+            </Principal>
+            <Dependent Role="FollowsCount">
+              <PropertyRef Name="UserInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Followed_UserProfile">
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="SnoopingDBModel.Follows" Role="Follows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Follows">
+              <PropertyRef Name="UserFollowedID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Followers_UserProfile">
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="SnoopingDBModel.Follows" Role="Follows" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Follows">
+              <PropertyRef Name="UserFollowerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -474,6 +594,15 @@
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="FollowsCount">
+            <EntityTypeMapping TypeName="SnoopingDBModel.FollowsCount">
+              <MappingFragment StoreEntitySet="FollowsCount">
+                <ScalarProperty Name="FollowedCount" ColumnName="FollowedCount" />
+                <ScalarProperty Name="FollowersCount" ColumnName="FollowersCount" />
+                <ScalarProperty Name="UserInfoID" ColumnName="UserInfoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

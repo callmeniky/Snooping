@@ -25,5 +25,6 @@ namespace MardomEvaluationTest.Models
         public byte[] Photo { get; set; }
     
         public virtual UserProfile UserProfile { get; set; }
+        public virtual FollowsCount FollowsCount { get; set; }
     }
 }

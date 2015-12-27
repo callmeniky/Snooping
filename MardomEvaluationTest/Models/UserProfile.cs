@@ -19,6 +19,8 @@ namespace MardomEvaluationTest.Models
             this.webpages_Roles = new HashSet<webpages_Roles>();
             this.Snoops = new HashSet<Snoops>();
             this.UsersInfo = new HashSet<UsersInfo>();
+            this.Follows = new HashSet<Follows>();
+            this.Follows1 = new HashSet<Follows>();
         }
     
         public int UserID { get; set; }
@@ -27,5 +29,7 @@ namespace MardomEvaluationTest.Models
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
         public virtual ICollection<Snoops> Snoops { get; set; }
         public virtual ICollection<UsersInfo> UsersInfo { get; set; }
+        public virtual ICollection<Follows> Follows { get; set; }
+        public virtual ICollection<Follows> Follows1 { get; set; }
     }
 }

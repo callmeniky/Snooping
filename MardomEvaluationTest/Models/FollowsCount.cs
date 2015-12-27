@@ -12,13 +12,12 @@ namespace MardomEvaluationTest.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Follows
+    public partial class FollowsCount
     {
-        public int UserFollowerID { get; set; }
-        public int UserFollowedID { get; set; }
-        public System.DateTime DateFollow { get; set; }
+        public int UserInfoID { get; set; }
+        public int FollowersCount { get; set; }
+        public int FollowedCount { get; set; }
     
-        public virtual UserProfile UserProfile { get; set; }
-        public virtual UserProfile UserProfile1 { get; set; }
+        public virtual UsersInfo UsersInfo { get; set; }
     }
 }
