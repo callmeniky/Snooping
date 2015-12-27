@@ -22,6 +22,7 @@
         <AssociationConnector Association="SnoopingDBModel.FK_FollowsCount_UsersInfo" />
         <AssociationConnector Association="SnoopingDBModel.FK_Followed_UserProfile" />
         <AssociationConnector Association="SnoopingDBModel.FK_Followers_UserProfile" />
+        <EntityTypeShape EntityType="SnoopingDBModel.VwProfileInfo" Width="1.5" PointX="7.5" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
