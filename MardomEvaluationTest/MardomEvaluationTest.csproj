@@ -193,7 +193,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\InputModels\AccountModels.cs" />
+    <Compile Include="Infraestructure\InputModels\AccountModels.cs" />
+    <Compile Include="Models\BusinessLogic\Perfiles.cs" />
     <Compile Include="Models\Follows.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
@@ -224,9 +225,9 @@
     <Compile Include="Models\UsersInfo.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\InputModels\SnoopModel.cs" />
-    <Compile Include="Models\ViewModels\ProfileViewModel.cs" />
-    <Compile Include="Models\ViewModels\SnoopViewModel.cs" />
+    <Compile Include="Infraestructure\InputModels\SnoopModel.cs" />
+    <Compile Include="Infraestructure\ViewModels\ProfileViewModel.cs" />
+    <Compile Include="Infraestructure\ViewModels\SnoopViewModel.cs" />
     <Compile Include="Models\webpages_Membership.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
@@ -411,8 +412,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Snoop\_listSnoops.cshtml" />
-    <Content Include="Views\Profile\_profile.cshtml" />
+    <Content Include="Views\Profile\_perfiles.cshtml" />
     <Content Include="Views\Hashtag\_hashtag.cshtml" />
+    <Content Include="Views\Profile\_perfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -441,7 +443,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51490</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51490/</IISUrl>
+          <IISUrl>http://localhost:31544/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

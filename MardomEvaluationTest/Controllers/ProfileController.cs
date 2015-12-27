@@ -8,6 +8,7 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using System.Text;
 using MardomEvaluationTest.Filters;
+using MardomEvaluationTest.Models.BusinessLogic;
 
 namespace MardomEvaluationTest.Controllers
 {
@@ -67,6 +68,18 @@ namespace MardomEvaluationTest.Controllers
             return imgSrc;
         }
 
+        public ActionResult Perfiles(string criterio)
+        {
+            var perfiles = MardomEvaluationTest.Models.BusinessLogic.Perfiles.ObtenerPerfilesPorNombre(criterio);
+            return View("_perfiles", perfiles);
+        }
+
+        public ActionResult BuscarPerfil(string username)
+        {
+            var perfil = MardomEvaluationTest.Models.BusinessLogic.Perfiles.ObtenerPerfil(username);
+
+            return View("_perfil", perfil);
+        }
   
         public class UserPhoto
         {

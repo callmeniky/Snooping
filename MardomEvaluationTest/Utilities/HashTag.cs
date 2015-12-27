@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using MardomEvaluationTest.Models.ViewModels;
 using MardomEvaluationTest.Models;
+using MardomEvaluationTest.Infraestructure.ViewModels;
+using MardomEvaluationTest.Infraestructure.InputModels;
 
 namespace MardomEvaluationTest.Utilities
 {

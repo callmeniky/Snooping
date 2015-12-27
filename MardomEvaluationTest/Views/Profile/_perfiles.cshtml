@@ -1,8 +1,5 @@
-﻿@model List<MardomEvaluationTest.Infraestructure.ViewModels.SnoopViewModel>
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model List<MardomEvaluationTest.Infraestructure.ViewModels.ProfileViewModel>
+
 
 
 <div class="row">
@@ -69,12 +66,14 @@
                             img = String.Format("data:image/gif;base64,{0}", bas);
                                     }
                                     <img src="@Html.Action("ObtenerFotoPorUsuario", "Profile", new {username = item.UserName})
-                                         " alt="..." class="img-rounded" width="42" height="42">
+                                         " alt=" ..." class="img-rounded" width="42" height="42">
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="help-block" style="margin-top: -3px !important;"><a><strong>@item.FullName</strong></a>@string.Format("@{0}", item.UserName)</p>
+                                    <p class="help-block" style="margin-top: -3px !important;"><a href="/Profile/BuscarPerfil?username=@item.UserName">
+                                        <strong>@item.FullName</strong></a>@string.Format("@{0}", item.UserName)</p>
+                                    <p>@ViewBag.FollowersCount Seguidores | @ViewBag.FollowedCount Seguidos</p>
                                 </div>
-                                <div class="col-md-8">
+                                @*<div class="col-md-8">
                                     <ul class="list-unstyled">
                                         <li>
                                             <span>
@@ -97,14 +96,10 @@
                                             <span class="glyphicon glyphicon-heart votos"></span>
                                         </li>
                                     </ul>
-                                </div>
+                                </div>*@
                             </div>
                         }
                     }
-
-                    <div class="col-md-8">
-                        <span class="text-center"><a>¿Ver más?</a></span>
-                    </div>
                 </div>
             </fieldset>
         </form>

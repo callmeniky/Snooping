@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MardomEvaluationTest.Models.ViewModels
+namespace MardomEvaluationTest.Infraestructure.InputModels
 {
     public class SnoopInputModel
     {

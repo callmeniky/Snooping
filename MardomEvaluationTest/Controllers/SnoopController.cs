@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Models.ViewModels;
+using MardomEvaluationTest.Infraestructure.ViewModels;
+using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Filters;
 using System.Web.Security;
 using System.Security.Policy;
@@ -39,6 +40,7 @@ namespace MardomEvaluationTest.Controllers
 
         public ActionResult Profile()
         {
+           
             var username = Membership.GetUser().UserName;
 
             var listSnoobs = _contextDB.Snoops.Where(
@@ -60,6 +62,7 @@ namespace MardomEvaluationTest.Controllers
         
         public ActionResult AgregarSnoop(SnoopInputModel snoopInputModel)
         {
+             var guardar = false;
             int userId = WebMatrix.WebData.WebSecurity.CurrentUserId;
 
             if (ModelState.IsValid)
@@ -92,10 +95,10 @@ namespace MardomEvaluationTest.Controllers
                 }
 
                 _contextDB.Snoops.Add(snoop);
-                _contextDB.SaveChanges();
+                guardar = _contextDB.SaveChanges() > 0 ? true : false;
             }
 
-            return View();
+            return Json(new { Result = guardar });
         }
 
 

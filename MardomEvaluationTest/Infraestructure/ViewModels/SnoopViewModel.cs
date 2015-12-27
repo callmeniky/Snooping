@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MardomEvaluationTest.Models;
 
-namespace MardomEvaluationTest.Models.ViewModels
+namespace MardomEvaluationTest.Infraestructure.ViewModels
 {
     public class SnoopViewModel
     {
