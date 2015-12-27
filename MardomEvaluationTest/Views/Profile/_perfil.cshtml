@@ -1,15 +1,37 @@
 ﻿@model List<MardomEvaluationTest.Infraestructure.ViewModels.SnoopViewModel>
 
+<script>
+    $(function () {
+        $('.btn.siguiendo').on('mouseover', function () {
+            $('.btn.siguiendo').text('Dejar de seguir').css('font-weight', '700');
+        });
 
+        $('.btn.siguiendo').on('mouseleave', function () {
+            $('.btn.siguiendo').text('Siguiendo');
+        });
+
+        $('button.seguir').off('click').on('click', function () {
+
+            $.post('/Follow/Seguir', { followed: $('#usuario').val() }, function (data) {
+
+                if (data.Result)
+                    toastr.success('Has comenzado a seguir a ' + usuario.value);
+                else
+                    toastr.error('Lo sentimos, no se ha podido completar la operacion.');
+            });
+        });
+    });
+</script>
 <div class="row">
     <div class="col-lg-3">
         <form role="form">
             <div class="row form-group">
                 <div class="col-md-4">
+                    <input type="hidden" id="usuario" value="@Model.First().UserName" />
                     <img src="@Html.Action("ObtenerFotoPorUsuario", "Profile", new {username = Model.First().UserName })" alt="..." class="img-thumbnail" width="100" height="75" />
                 </div>
                 <div class="col-md-8">
-                    <p class="help-block"><strong>@ViewBag.FullName</strong></p>
+                    <p class="help-block"><strong>@Model.First().FullName</strong></p>
                 </div>
                 <div class="col-md-8">
                     <ul class="list-unstyled">
@@ -30,7 +52,14 @@
                     </ul>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span><span>Seguir</span></button>
+                    @if (ViewBag.EsSeguidor)
+                    { 
+                      <button type="button" class="btn btn-warning siguiendo"><strong>Siguiendo</strong></button>
+                    }else
+                    {
+                     <button type="button" class="btn btn-success seguir"><strong>Seguir</strong></button>
+                    }
+                   
                 </div>
             </div>
             <div class="form-group">

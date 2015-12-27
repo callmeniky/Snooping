@@ -46,8 +46,13 @@ namespace MardomEvaluationTest.Controllers
             var listSnoobs = _contextDB.Snoops.Where(
                 r => r.UserProfile.UserName == username).ToList();
 
+            var followInfo = _contextDB.FollowsCount.FirstOrDefault(
+                r => r.UsersInfo.UserProfile.UserName == username);
+
             var lstSnoopsView = new List<SnoopViewModel>();
             var snoopView = new SnoopViewModel();
+            ViewBag.Followers = followInfo.FollowersCount;
+            ViewBag.Followed = followInfo.FollowedCount;
 
             foreach (var snoop in listSnoobs)
             {

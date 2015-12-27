@@ -12,13 +12,24 @@ namespace MardomEvaluationTest.Models.BusinessLogic
     {
         private static SnoopingDBEntities _snoopingDb = new SnoopingDBEntities();
 
-        public List<ProfileViewModel> ObtenerPerfilesPorNombre(string criterio)
+        public List<ProfileViewModel> ObtenerPerfilesPorNombre(string criterio, int currentUserId, out ProfileViewModel profileVw)
         {
+            profileVw = new ProfileViewModel();
             ProfileViewModel profileView = new ProfileViewModel();
             List<ProfileViewModel> lstProfileView = new List<ProfileViewModel>();
 
             var perfiles = _snoopingDb.UsersInfo.Where(
                 r => r.FullName.Contains(criterio)).ToList();
+
+           // var currentUser = _snoopingDb.
+            var followInfo = _snoopingDb.FollowsCount.FirstOrDefault(
+              r => r.UsersInfo.UserID == currentUserId);
+
+            //if (followInfo != null)
+            //{
+            //    followed = followInfo.FollowedCount;
+            //    followers = followInfo.FollowersCount;
+            //}
 
             if(perfiles.Any())
             {
