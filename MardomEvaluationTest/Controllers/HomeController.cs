@@ -7,23 +7,44 @@ using MardomEvaluationTest.Repositorios.Servicios;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using WebMatrix.WebData;
 using MardomEvaluationTest.Filters;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Configuration;
 
 namespace MardomEvaluationTest.Controllers
 {
     [InitializeSimpleMembership]
     public class HomeController : Controller
     {
-        public ActionResult Index(string mensaje = "")
+        private HttpClient client = new HttpClient();
+
+        public async Task <ActionResult> Index(string mensaje = "")
         {
             List<SnoopViewModel> lstSnoops = new List<SnoopViewModel>();
             ViewBag.Message = mensaje;
 
-            if(Request.IsAuthenticated)
+            if (Request.IsAuthenticated)
             {
-                var snoop = new Snoop();
-                lstSnoops = snoop.ListarSnoops(WebSecurity.CurrentUserId);
-            }
+                //var snoop = new Snoop();
+                //lstSnoops = snoop.ListarSnoops(WebSecurity.CurrentUserId);
+                using (client = new HttpClient())
+                {
+                    var wsUrl = ConfigurationManager.AppSettings["UrlSnoopingWS"].ToString();
 
+                    client.BaseAddress = new Uri(wsUrl);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await client.GetAsync
+                        (string.Format("api/Snoop?usuarioId={0}", WebSecurity.CurrentUserId));
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        lstSnoops = await response.Content.ReadAsAsync<List<SnoopViewModel>>();
+                    }
+                }
+            }
             return View(lstSnoops);
         }
 

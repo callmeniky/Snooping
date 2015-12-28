@@ -12,11 +12,13 @@ using System.Security.Policy;
 using MardomEvaluationTest.Utilities;
 using MardomEvaluationTest.Repositorios.Servicios;
 using WebMatrix.WebData;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace MardomEvaluationTest.Controllers
 {
     [InitializeSimpleMembership]
-    public class SnoopController : BasicController
+    public class SnoopController : Controller
     {
         //
         // GET: /Snoop/
