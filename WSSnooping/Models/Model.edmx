@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SnoopingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersInfo">
+          <Key>
+            <PropertyRef Name="UserInfoID" />
+          </Key>
+          <Property Name="UserInfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="EMail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="ImageGuid" />
+          </Key>
+          <Property Name="ImageGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ImageBin" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Snoops">
+          <Key>
+            <PropertyRef Name="SnoopID" />
+          </Key>
+          <Property Name="SnoopID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Snoop" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ImageGuid" Type="uniqueidentifier" />
+          <Property Name="DateSnoop" Type="datetime" Nullable="false" />
+          <Property Name="Private" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SnoopingDB.dbo.VwSnoopsFollowed' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VwSnoopsFollowed">
+          <Key>
+            <PropertyRef Name="SnoopID" />
+            <PropertyRef Name="Snoop" />
+            <PropertyRef Name="Private" />
+            <PropertyRef Name="UserFollowerID" />
+            <PropertyRef Name="UserFollowedID" />
+            <PropertyRef Name="DateSnoop" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="SnoopID" Type="int" Nullable="false" />
+          <Property Name="Snoop" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Private" Type="bit" Nullable="false" />
+          <Property Name="ImageBin" Type="varbinary(max)" />
+          <Property Name="UserFollowerID" Type="int" Nullable="false" />
+          <Property Name="UserFollowedID" Type="int" Nullable="false" />
+          <Property Name="DateSnoop" Type="datetime" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Images_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="1" />
+          <End Role="Images1" Type="Self.Images" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Images1">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Snoops_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Snoops" Type="Self.Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Snoops_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Snoops" Type="Self.Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersInfo_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="UsersInfo" Type="Self.UsersInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UsersInfo">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SnoopingDBModelStoreContainer">
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" Schema="Profile" store:Type="Tables" />
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="Social" store:Type="Tables" />
+          <EntitySet Name="Snoops" EntityType="Self.Snoops" Schema="Social" store:Type="Tables" />
+          <EntitySet Name="VwSnoopsFollowed" EntityType="Self.VwSnoopsFollowed" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[VwSnoopsFollowed].[SnoopID] AS [SnoopID], 
+[VwSnoopsFollowed].[Snoop] AS [Snoop], 
+[VwSnoopsFollowed].[Private] AS [Private], 
+[VwSnoopsFollowed].[ImageBin] AS [ImageBin], 
+[VwSnoopsFollowed].[UserFollowerID] AS [UserFollowerID], 
+[VwSnoopsFollowed].[UserFollowedID] AS [UserFollowedID], 
+[VwSnoopsFollowed].[DateSnoop] AS [DateSnoop], 
+[VwSnoopsFollowed].[FullName] AS [FullName], 
+[VwSnoopsFollowed].[UserName] AS [UserName], 
+[VwSnoopsFollowed].[Photo] AS [Photo]
+FROM [dbo].[VwSnoopsFollowed] AS [VwSnoopsFollowed]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Images_Images" Association="Self.FK_Images_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Images1" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_Images" Association="Self.FK_Snoops_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_UserProfile" Association="Self.FK_Snoops_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersInfo_UserProfile" Association="Self.FK_UsersInfo_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UsersInfo" EntitySet="UsersInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SnoopingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="UsersInfo">
+          <Key>
+            <PropertyRef Name="UserInfoID" />
+          </Key>
+          <Property Name="UserInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="EMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.FK_UsersInfo_UserProfile" FromRole="UsersInfo" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="ImageGuid" />
+          </Key>
+          <Property Name="ImageGuid" Type="Guid" Nullable="false" />
+          <Property Name="ImageBin" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Images1" Relationship="Self.FK_Images_Images" FromRole="Images" ToRole="Images1" />
+          <NavigationProperty Name="Images2" Relationship="Self.FK_Images_Images" FromRole="Images1" ToRole="Images" />
+          <NavigationProperty Name="Snoops" Relationship="Self.FK_Snoops_Images" FromRole="Images" ToRole="Snoops" />
+        </EntityType>
+        <EntityType Name="Snoops">
+          <Key>
+            <PropertyRef Name="SnoopID" />
+          </Key>
+          <Property Name="SnoopID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Snoop" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ImageGuid" Type="Guid" />
+          <Property Name="DateSnoop" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Private" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_Snoops_Images" FromRole="Snoops" ToRole="Images" />
+          <NavigationProperty Name="UserProfile" Relationship="SnoopingDBModel.FK_Snoops_UserProfile" FromRole="Snoops" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="VwSnoopsFollowed">
+          <Key>
+            <PropertyRef Name="SnoopID" />
+            <PropertyRef Name="Snoop" />
+            <PropertyRef Name="Private" />
+            <PropertyRef Name="UserFollowerID" />
+            <PropertyRef Name="UserFollowedID" />
+            <PropertyRef Name="DateSnoop" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="SnoopID" Type="Int32" Nullable="false" />
+          <Property Name="Snoop" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Private" Type="Boolean" Nullable="false" />
+          <Property Name="ImageBin" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="UserFollowerID" Type="Int32" Nullable="false" />
+          <Property Name="UserFollowedID" Type="Int32" Nullable="false" />
+          <Property Name="DateSnoop" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FullName" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="56" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Images_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="1" />
+          <End Role="Images1" Type="Self.Images" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Images1">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Snoops_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Snoops" Type="Self.Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="ImageGuid" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="ImageGuid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SnoopingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" />
+          <EntitySet Name="Images" EntityType="Self.Images" />
+          <EntitySet Name="Snoops" EntityType="Self.Snoops" />
+          <EntitySet Name="VwSnoopsFollowed" EntityType="Self.VwSnoopsFollowed" />
+          <AssociationSet Name="FK_Images_Images" Association="Self.FK_Images_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Images1" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Snoops_Images" Association="Self.FK_Snoops_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <EntitySet Name="UserProfile" EntityType="SnoopingDBModel.UserProfile" />
+          <AssociationSet Name="FK_Snoops_UserProfile" Association="SnoopingDBModel.FK_Snoops_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Snoops" EntitySet="Snoops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersInfo_UserProfile" Association="SnoopingDBModel.FK_UsersInfo_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UsersInfo" EntitySet="UsersInfo" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Snoops" Relationship="SnoopingDBModel.FK_Snoops_UserProfile" FromRole="UserProfile" ToRole="Snoops" />
+          <NavigationProperty Name="UsersInfo" Relationship="SnoopingDBModel.FK_UsersInfo_UserProfile" FromRole="UserProfile" ToRole="UsersInfo" />
+        </EntityType>
+        <Association Name="FK_Snoops_UserProfile">
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="SnoopingDBModel.Snoops" Role="Snoops" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Snoops">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersInfo_UserProfile">
+          <End Type="SnoopingDBModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="SnoopingDBModel.UsersInfo" Role="UsersInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UsersInfo">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SnoopingDBModelStoreContainer" CdmEntityContainer="SnoopingDBEntities">
+          <EntitySetMapping Name="UsersInfo">
+            <EntityTypeMapping TypeName="SnoopingDBModel.UsersInfo">
+              <MappingFragment StoreEntitySet="UsersInfo">
+                <ScalarProperty Name="UserInfoID" ColumnName="UserInfoID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="SnoopingDBModel.Images">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="ImageGuid" ColumnName="ImageGuid" />
+                <ScalarProperty Name="ImageBin" ColumnName="ImageBin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Snoops">
+            <EntityTypeMapping TypeName="SnoopingDBModel.Snoops">
+              <MappingFragment StoreEntitySet="Snoops">
+                <ScalarProperty Name="SnoopID" ColumnName="SnoopID" />
+                <ScalarProperty Name="Snoop" ColumnName="Snoop" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ImageGuid" ColumnName="ImageGuid" />
+                <ScalarProperty Name="DateSnoop" ColumnName="DateSnoop" />
+                <ScalarProperty Name="Private" ColumnName="Private" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VwSnoopsFollowed">
+            <EntityTypeMapping TypeName="SnoopingDBModel.VwSnoopsFollowed">
+              <MappingFragment StoreEntitySet="VwSnoopsFollowed">
+                <ScalarProperty Name="SnoopID" ColumnName="SnoopID" />
+                <ScalarProperty Name="Snoop" ColumnName="Snoop" />
+                <ScalarProperty Name="Private" ColumnName="Private" />
+                <ScalarProperty Name="ImageBin" ColumnName="ImageBin" />
+                <ScalarProperty Name="UserFollowerID" ColumnName="UserFollowerID" />
+                <ScalarProperty Name="UserFollowedID" ColumnName="UserFollowedID" />
+                <ScalarProperty Name="DateSnoop" ColumnName="DateSnoop" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="SnoopingDBModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
