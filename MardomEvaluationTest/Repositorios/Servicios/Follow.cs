@@ -5,9 +5,9 @@ using System.Web;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Models;
-using MardomEvaluationTest.BusinessLogic.Interfaces;
+using MardomEvaluationTest.Repositorios.Interfaces;
 
-namespace MardomEvaluationTest.BusinessLogic.Servicios
+namespace MardomEvaluationTest.Repositorios.Servicios
 {
     class Follow: IFollow
     {

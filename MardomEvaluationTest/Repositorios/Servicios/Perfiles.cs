@@ -5,9 +5,9 @@ using System.Web;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using MardomEvaluationTest.Models;
-using MardomEvaluationTest.BusinessLogic.Interfaces;
+using MardomEvaluationTest.Repositorios.Interfaces;
 
-namespace MardomEvaluationTest.BusinessLogic.Servicios
+namespace MardomEvaluationTest.Repositorios.Servicios
 {
     public class Perfiles: IPerfiles
     {

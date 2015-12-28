@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 
-namespace MardomEvaluationTest.BusinessLogic.Interfaces
+namespace MardomEvaluationTest.Repositorios.Interfaces
 {
     public interface IPerfiles
     {

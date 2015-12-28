@@ -10,7 +10,7 @@ using MardomEvaluationTest.Filters;
 using System.Web.Security;
 using System.Security.Policy;
 using MardomEvaluationTest.Utilities;
-using MardomEvaluationTest.BusinessLogic.Servicios;
+using MardomEvaluationTest.Repositorios.Servicios;
 using WebMatrix.WebData;
 
 namespace MardomEvaluationTest.Controllers

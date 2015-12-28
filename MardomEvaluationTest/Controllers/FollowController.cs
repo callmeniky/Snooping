@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.BusinessLogic;
+using MardomEvaluationTest.Repositorios;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using WebMatrix.WebData;
-using MardomEvaluationTest.BusinessLogic.Servicios;
+using MardomEvaluationTest.Repositorios.Servicios;
 
 namespace MardomEvaluationTest.Controllers
 {

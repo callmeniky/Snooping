@@ -9,7 +9,7 @@ using WebMatrix.WebData;
 using System.Text;
 using MardomEvaluationTest.Filters;
 using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.BusinessLogic.Servicios;
+using MardomEvaluationTest.Repositorios.Servicios;
 
 
 namespace MardomEvaluationTest.Controllers

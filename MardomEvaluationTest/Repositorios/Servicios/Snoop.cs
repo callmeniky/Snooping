@@ -5,10 +5,10 @@ using System.Web;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using MardomEvaluationTest.Models;
 using MardomEvaluationTest.Utilities;
-using MardomEvaluationTest.BusinessLogic.Interfaces;
+using MardomEvaluationTest.Repositorios.Interfaces;
 using MardomEvaluationTest.Infraestructure.InputModels;
 
-namespace MardomEvaluationTest.BusinessLogic.Servicios
+namespace MardomEvaluationTest.Repositorios.Servicios
 {
     public class Snoop: ISnoop
     {

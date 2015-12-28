@@ -8,7 +8,7 @@ using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Models;
 using MardomEvaluationTest.Utilities;
 
-namespace MardomEvaluationTest.BusinessLogic.Interfaces
+namespace MardomEvaluationTest.Repositorios.Interfaces
 {
     public interface ISnoop
     {

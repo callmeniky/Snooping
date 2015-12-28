@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MardomEvaluationTest.BusinessLogic.Interfaces
+namespace MardomEvaluationTest.Repositorios.Interfaces
 {
     public interface IFollow
     {
