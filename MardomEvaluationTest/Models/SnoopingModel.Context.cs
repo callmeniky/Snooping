@@ -35,5 +35,6 @@ namespace MardomEvaluationTest.Models
         public DbSet<webpages_Roles> webpages_Roles { get; set; }
         public DbSet<FollowsCount> FollowsCount { get; set; }
         public DbSet<VwProfileInfo> VwProfileInfo { get; set; }
+        public DbSet<VwSnoopsFollowed> VwSnoopsFollowed { get; set; }
     }
 }
