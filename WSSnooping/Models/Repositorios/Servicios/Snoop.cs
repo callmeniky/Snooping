@@ -5,6 +5,7 @@ using System.Web;
 using WSSnooping.Models;
 using WSSnooping.Infraestructure.InputModels;
 using WSSnooping.Infraestructure.ViewModels;
+using WSSnooping.Utilities;
 
 namespace WSSnooping.Models.Repositorios.Servicios
 {
@@ -64,6 +65,9 @@ namespace WSSnooping.Models.Repositorios.Servicios
             foreach (var snoop in lista)
             {
                 snoopView = new SnoopViewModel(snoop);
+                if (snoopView.Snoop.Contains('#'))
+                     snoopView.Snoop = Hashtag.GetHashTag(snoopView.Snoop);
+
                 lstSnoopView.Add(snoopView);
             }
 
