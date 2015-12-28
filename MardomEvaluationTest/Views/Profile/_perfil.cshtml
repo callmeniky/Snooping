@@ -20,6 +20,20 @@
                     toastr.error('Lo sentimos, no se ha podido completar la operacion.');
             });
         });
+
+        $('button.siguiendo').off('click').on('click', function () {
+
+            $.post('/Follow/DejarDeSeguir', { followed: $('#usuario').val() }, function (data) {
+                console.log(data.Result);
+                if (data.Result) {
+                    toastr.success('Ya no sigues a ' + usuario.value);
+                    $('button.siguiendo').hide();
+                    $('button.seguir').show();
+                }
+                else
+                    toastr.error('Lo sentimos, no se ha podido completar la operacion.');
+            });
+        });
     });
 </script>
 <div class="row">

@@ -1,6 +1,18 @@
 ﻿@model List<MardomEvaluationTest.Infraestructure.ViewModels.SnoopViewModel>
 
-
+<script>
+    $(function () {
+        function getSorted(selector, attrName) {
+            return $($(selector).toArray().sort(function (a, b) {
+                var aVal = parseInt(a.getAttribute(attrName)),
+                    bVal = parseInt(b.getAttribute(attrName));
+                return aVal - bVal;
+            }));
+        }
+       
+        
+    });
+</script>
 <div class="row">
     <div class="col-lg-3">
         <form role="form">
@@ -46,14 +58,14 @@
     <!-- /.col-lg-6 (nested) -->
     <div class="col-lg-6" style="overflow: auto">
         <form role="form">
-            <fieldset disabled>
-                <div class="form-group">
-
+            <fieldset>               
+                 <div class="form-group lista">
+                    
                     @if (Model.Any())
                     {
                         foreach (var item in Model)
                         {
-                            <div class="row form-group">
+                            <div class="row form-group item" data-sort="@item.SnoopID">
                                 <div class="col-md-1">
                                     @{
                             var img = string.Empty;
@@ -95,9 +107,6 @@
                         }
                     }
 
-                    <div class="col-md-8">
-                        <span class="text-center"><a>¿Ver más?</a></span>
-                    </div>
                 </div>
             </fieldset>
         </form>

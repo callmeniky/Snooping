@@ -13,6 +13,7 @@
     <script src="~/Scripts/jquery-1.11.3.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/toastr.js"></script>
+    <link href="~/Content/toastr.css" rel="stylesheet"/>
     <script src="~/Scripts/Snoops.js"></script>
     <script src="~/Scripts/Profile.js"></script>
     @*<script src="~/Scripts/bootstrap.min.js"></script>*@
@@ -28,17 +29,9 @@
                     
                 });
                 
-                //$.ajax({
-                //    method: 'POST',
-                //    contentType: 'application/json',
-                //    dataType: 'json',
-                //    url: '/Hashtag/Buscar',
-                //    data: { criterio: JSON.stringify($('#inpSearch').val()) }
-                    
-                //}).done(function(data){
-                //    $('html').html(data);
-                //});
-           // });
+            $('button#ordenar').off('click').on('click', function () {
+                OrdenarLista();
+            });
 
             function readURL(input, elem) {
 
@@ -63,24 +56,24 @@
             });
 
             $('#btnAgregarSnoop').off('click').on('click', function () {
+                if (!($('#Snoop').val())) {
+                    toastr.warning('Aún no escribes tu snoop.');
+                } else {
+                    var img = null;
 
-                var img = null;
+                    if (!(!$('#inpImage').val())) {
+                        img = $('#imgShow').attr('src').split(",")[1];
+                    }
 
-                if (!(!$('#inpImage').val()))
-                {
-                   img = $('#imgShow').attr('src').split(",")[1];
+                    var newSnoop = {
+                        "Snoop": $('#Snoop').val(),
+                        "Private": $('#Private').is(':checked'),
+                        "Image": img
+                    }
+
+                    Agregar(newSnoop, '#myModal');
                 }
-
-                var newSnoop = {
-                    "Snoop": $('#Snoop').val(),
-                    "Private": $('#Private').is(':checked'),
-                    "Image": img
-                }
-
-                if (Agregar(newSnoop))
-                    toastr.success('Se ha insertado su Snoop.')
-                else
-                    toastr.error('Lo sentimos, no hemos podido insertar su Snoop.');
+                    
             });
 
             $('#btnCambiarImagen').off('click').on('click', function () {
@@ -89,15 +82,15 @@
 
                 if (!(!$('#inpPhoto').val())) {
                     img = $('#imgPhoto').attr('src').split(",")[1];
-                }
+                    var imagen = {
+                        "Foto": img
+                    }
 
-                var imagen = {
-                    "Foto": img
-                }
-
-                CambiarFoto(imagen);
-                
-
+                    CambiarFoto(imagen);
+                }else
+                {
+                    toastr.warning('Debes elegir una foto de perfil.');
+                }            
             });
         })
     </script>
@@ -173,7 +166,7 @@
                                                     <h4 class="modal-title">¿Qué has visto?</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <textarea class="form-control" id="Snoop" placeholder="200 carácteres máximo..."></textarea>
+                                                    <textarea class="form-control" id="Snoop" placeholder="200 carácteres máximo..." maxlength="200" required></textarea>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <div class="form-group">
@@ -186,7 +179,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6" style="text-align:left !important">
                                                             <span>
-                                                                ¿Hacer este Snoob público? <input type="checkbox" id="Private" name="Private">
+                                                                ¿Hacer este Snoop privado? <input type="checkbox" id="Private" name="Private">
                                                             </span>
                                                         </div>
                                                         <div class="col-md-6">
@@ -264,6 +257,12 @@ else
                                                 <button class="btn btn-default" type="button" name="search" id="search"><i class="glyphicon glyphicon-search"></i></button>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-default" id="ordenar">
+                                            <i class="glyphicon glyphicon-arrow-up"></i><i class="glyphicon glyphicon-arrow-down"></i>
+                                        </button>
+
                                     </div>
                                     </div>
 

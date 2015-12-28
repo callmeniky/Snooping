@@ -1,10 +1,10 @@
 ﻿///<reference path="~/Scripts/toastr.js">
 
-$.getScript("~/Scripts/toastr.js", function () {
+//$.getScript("~/Scripts/toastr.js", function () {
 
-    alert("Script loaded but not necessarily executed.");
+//    alert("Script loaded but not necessarily executed.");
 
-});
+//});
 
 $(function () {
 

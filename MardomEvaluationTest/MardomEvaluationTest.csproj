@@ -183,8 +183,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IFollow.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IPerfiles.cs" />
+    <Compile Include="BusinessLogic\Interfaces\ISnoop.cs" />
+    <Compile Include="BusinessLogic\Servicios\Snoop.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasicController.cs" />
+    <Compile Include="Controllers\FollowController.cs" />
     <Compile Include="Controllers\HashtagController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -194,8 +199,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infraestructure\InputModels\AccountModels.cs" />
-    <Compile Include="Models\BusinessLogic\Perfiles.cs" />
+    <Compile Include="BusinessLogic\Servicios\Follow.cs" />
+    <Compile Include="BusinessLogic\Servicios\Perfiles.cs" />
     <Compile Include="Models\Follows.cs">
+      <DependentUpon>SnoopingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FollowsCount.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Images.cs">
@@ -216,6 +225,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SnoopingModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Infraestructure\InputModels\SnoopModel.cs" />
+    <Compile Include="Infraestructure\ViewModels\ProfileViewModel.cs" />
+    <Compile Include="Infraestructure\ViewModels\SnoopViewModel.cs" />
     <Compile Include="Models\Snoops.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
@@ -225,9 +237,12 @@
     <Compile Include="Models\UsersInfo.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infraestructure\InputModels\SnoopModel.cs" />
-    <Compile Include="Infraestructure\ViewModels\ProfileViewModel.cs" />
-    <Compile Include="Infraestructure\ViewModels\SnoopViewModel.cs" />
+    <Compile Include="Models\VwProfileInfo.cs">
+      <DependentUpon>SnoopingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VwSnoopsFollowed.cs">
+      <DependentUpon>SnoopingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\webpages_Membership.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
@@ -415,6 +430,7 @@
     <Content Include="Views\Profile\_perfiles.cshtml" />
     <Content Include="Views\Hashtag\_hashtag.cshtml" />
     <Content Include="Views\Profile\_perfil.cshtml" />
+    <Content Include="Views\Home\_snoopsFollowed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

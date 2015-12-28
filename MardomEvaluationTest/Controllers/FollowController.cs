@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.Models.BusinessLogic;
+using MardomEvaluationTest.BusinessLogic;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using WebMatrix.WebData;
+using MardomEvaluationTest.BusinessLogic.Servicios;
 
 namespace MardomEvaluationTest.Controllers
 {
@@ -24,7 +25,7 @@ namespace MardomEvaluationTest.Controllers
         {
             bool result = false;
             var objFollow = new Follow();
-            string follower = WebMatrix.WebData.WebSecurity.CurrentUserName;
+            int follower = WebMatrix.WebData.WebSecurity.CurrentUserId;
 
             result = objFollow.DejarDeSeguir(follower, followed);
 

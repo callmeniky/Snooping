@@ -1,8 +1,11 @@
-﻿@if (Request.IsAuthenticated)
+﻿@model List<MardomEvaluationTest.Infraestructure.ViewModels.SnoopViewModel>
+@if (Request.IsAuthenticated)
 {
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
+    
+    @Html.Partial("_snoopsFollowed", Model);
 }
 else
 {

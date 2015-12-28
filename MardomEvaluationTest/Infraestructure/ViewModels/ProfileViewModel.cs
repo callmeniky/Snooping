@@ -18,10 +18,19 @@ namespace MardomEvaluationTest.Infraestructure.ViewModels
 
         }
 
+        public ProfileViewModel(VwProfileInfo userInfo)
+        {
+            UserName = userInfo.UserName;
+            FullName = userInfo.FullName;
+            Photo = userInfo.Photo;
+            Followed = userInfo.FollowedCount;
+            Followers = userInfo.FollowersCount;
+        }
+
         public string FullName { get; set; }
         public string UserName { get; set; }
         public byte[] Photo { get; set; }
-        public string Followers { get; set; }
+        public int Followers { get; set; }
         public int Followed { get; set; }
         public bool Follow { get; set; }
 

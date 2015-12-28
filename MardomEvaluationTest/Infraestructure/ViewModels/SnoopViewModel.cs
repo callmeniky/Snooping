@@ -24,6 +24,16 @@ namespace MardomEvaluationTest.Infraestructure.ViewModels
             Image = snoop.ImageGuid.HasValue ? snoop.Images.ImageBin : null;            
         }
 
+        public SnoopViewModel(VwSnoopsFollowed vwSnoops)
+        {
+            SnoopID = vwSnoops.SnoopID;
+            UserName = vwSnoops.UserName;
+            FullName = vwSnoops.FullName;
+            Photo = vwSnoops.Photo;
+            Snoop = vwSnoops.Snoop;
+            Image = vwSnoops.ImageBin;
+        }
+
         public int SnoopID { get; set; }
         public string UserName { get; set; }
         public string FullName { get; set; }

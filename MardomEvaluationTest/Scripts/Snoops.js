@@ -3,7 +3,7 @@
 
 $(function () {
 
-    Agregar = function (newSnoop) {
+    Agregar = function (newSnoop, modal) {
         {
             $.ajax({
                 data: JSON.stringify(newSnoop),
@@ -11,8 +11,15 @@ $(function () {
                 method: "POST",
                 contentType: "application/json"
             }).done(function (data) {
-                console.log(data.Result);
-                return data.Result;
+                if (data.Result) {
+                    toastr.success('Se ha insertado su Snoop.');
+                    $(modal).modal('hide');
+                    location.reload();
+                }
+                else {
+                    toastr.error('Lo sentimos, no hemos podido insertar su Snoop.');
+                }
+
             });
         }
     }
@@ -37,6 +44,17 @@ $(function () {
             $.post('/Profile/Perfiles', { criterio: criterio }, function (data) {
                 $('body').html(data);
             });
-        }
+    }
+
+    OrdenarLista = function()
+    {      
+            $(
+               $("div.item")
+                  .slice(1)
+                  .get()
+                  .reverse()
+             ).insertBefore("div.item:first");
+    }
+
 
 });

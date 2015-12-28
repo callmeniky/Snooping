@@ -8,8 +8,9 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using System.Text;
 using MardomEvaluationTest.Filters;
-using MardomEvaluationTest.Models.BusinessLogic;
 using MardomEvaluationTest.Infraestructure.ViewModels;
+using MardomEvaluationTest.BusinessLogic.Servicios;
+
 
 namespace MardomEvaluationTest.Controllers
 {
@@ -74,14 +75,17 @@ namespace MardomEvaluationTest.Controllers
 
         public ActionResult Perfiles(string criterio)
         {
-            int followers = 0;
-            int followed = 0;
+            int userId = WebSecurity.CurrentUserId;
             ProfileViewModel profileView = new ProfileViewModel();
 
             var perfiles = new Perfiles();
-            var lstPerfiles = perfiles.ObtenerPerfilesPorNombre(criterio, WebSecurity.CurrentUserId, out profileView);
-            ViewBag.Followers = followers;
-            ViewBag.Followed = 0;
+            var lstPerfiles = perfiles.ObtenerPerfilesPorNombre(criterio, userId);
+            var profileInfo = perfiles.ObtenerInfoPorID(userId);
+
+            ViewBag.Followers = profileInfo.Followers;
+            ViewBag.Followed = profileInfo.Followed;
+            ViewBag.FullName = profileInfo.FullName;
+
             return View("_perfiles", lstPerfiles);
         }
 
