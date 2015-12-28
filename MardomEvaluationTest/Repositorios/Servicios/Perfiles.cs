@@ -6,6 +6,7 @@ using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using MardomEvaluationTest.Models;
 using MardomEvaluationTest.Repositorios.Interfaces;
+using MardomEvaluationTest.Utilities;
 
 namespace MardomEvaluationTest.Repositorios.Servicios
 {
@@ -79,6 +80,9 @@ namespace MardomEvaluationTest.Repositorios.Servicios
                 foreach(var snoop in perfil)
                 {
                     snoopView = new SnoopViewModel(snoop);
+                    if (snoopView.Snoop.Contains('#'))
+                        snoopView.Snoop = HashTag.GetHashTag(snoopView.Snoop);
+
                     lstSnoopView.Add(snoopView);
                 }
             }
