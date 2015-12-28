@@ -10,6 +10,8 @@ using MardomEvaluationTest.Filters;
 using System.Web.Security;
 using System.Security.Policy;
 using MardomEvaluationTest.Utilities;
+using MardomEvaluationTest.BusinessLogic.Servicios;
+using WebMatrix.WebData;
 
 namespace MardomEvaluationTest.Controllers
 {
@@ -20,87 +22,40 @@ namespace MardomEvaluationTest.Controllers
         // GET: /Snoop/
         private SnoopingDBEntities _contextDB = new SnoopingDBEntities();
 
-        public ActionResult Index(string username = "")
+        public ActionResult Index()
         {
-            var listSnoobs = _contextDB.Snoops.Where(
-                r => r.UserProfile.UserName == username).ToList();
+            var snoop = new Snoop();
+            var lstSnoopsView = snoop.ListarSnoopsSiguiendo(WebSecurity.CurrentUserId);
 
-            var lstSnoopsView = new List<SnoopViewModel>();
-            var snoopView = new SnoopViewModel();
-
-
-            foreach(var snoop in listSnoobs)
-            {
-                snoopView = new SnoopViewModel(snoop);
-                lstSnoopsView.Add(snoopView);
-            }
-
-            return View(lstSnoopsView);
+            return View("_listSnoops", lstSnoopsView);
         }
 
         public ActionResult Profile()
         {
-           
+            int followers = 0;
+            int followed = 0;
+
             var username = Membership.GetUser().UserName;
 
-            var listSnoobs = _contextDB.Snoops.Where(
-                r => r.UserProfile.UserName == username).ToList();
+            var snoop = new Snoop();
+            var lstSnoopsView = snoop.ObtenerSnoopPerfil(username, ref followed, ref followers);
 
-            var followInfo = _contextDB.FollowsCount.FirstOrDefault(
-                r => r.UsersInfo.UserProfile.UserName == username);
-
-            var lstSnoopsView = new List<SnoopViewModel>();
-            var snoopView = new SnoopViewModel();
-            ViewBag.Followers = followInfo.FollowersCount;
-            ViewBag.Followed = followInfo.FollowedCount;
-
-            foreach (var snoop in listSnoobs)
-            {
-                snoopView = new SnoopViewModel(snoop);
-                snoopView.Snoop = HashTag.GetHashTag(snoopView.Snoop);
-                lstSnoopsView.Add(snoopView);
-            }
-            
+            ViewBag.Followers = followers;
+            ViewBag.Followed = followed;
 
             return View("Index", lstSnoopsView);
         }
         
         public ActionResult AgregarSnoop(SnoopInputModel snoopInputModel)
         {
-             var guardar = false;
+            var guardar = false;
             int userId = WebMatrix.WebData.WebSecurity.CurrentUserId;
 
             if (ModelState.IsValid)
             {
-                var snoop = new Snoops()
-                {
-                    Private = snoopInputModel.Private,
-                    DateSnoop = DateTime.Now,
-                    Snoop = snoopInputModel.Snoop,
-                    UserID = userId
-                };               
-
-                if (snoopInputModel.Image != null)
-                {
-                    Guid imageGuid = Guid.NewGuid();
-
-                    snoop = new Snoops()
-                    {
-                        Private = snoopInputModel.Private,
-                        DateSnoop = DateTime.Now,
-                        Snoop = snoopInputModel.Snoop,
-                        UserID = userId,
-                        Images = new Images()
-                        {
-                            ImageBin = snoopInputModel.Image,
-                            ImageGuid = imageGuid
-                        },
-                        ImageGuid = imageGuid
-                    };
-                }
-
-                _contextDB.Snoops.Add(snoop);
-                guardar = _contextDB.SaveChanges() > 0 ? true : false;
+                snoopInputModel.UserID = userId;
+                var snoop = new Snoop();
+               guardar = snoop.AgregarSnoop(snoopInputModel);
             }
 
             return Json(new { Result = guardar });

@@ -5,10 +5,11 @@ using System.Web;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Models;
+using MardomEvaluationTest.BusinessLogic.Interfaces;
 
-namespace MardomEvaluationTest.Models.BusinessLogic
+namespace MardomEvaluationTest.BusinessLogic.Servicios
 {
-    public class Follow
+    class Follow: IFollow
     {
         private SnoopingDBEntities _snoopingDB = new SnoopingDBEntities();
 
@@ -77,13 +78,13 @@ namespace MardomEvaluationTest.Models.BusinessLogic
             return result;
         }
 
-        public bool DejarDeSeguir(string uFollower, string uFollowed)
+        public bool DejarDeSeguir(int uFollower, string uFollowed)
         {
             bool result = false;
 
             var follow = _snoopingDB.Follows.FirstOrDefault(
-                r => r.UserProfile.UserName == uFollower
-                && r.UserProfile1.UserName == uFollowed);
+                r => r.UserFollowerID == uFollower
+                && r.UserProfile.UserName == uFollowed);
 
             _snoopingDB.Follows.Remove(follow);
 
@@ -93,7 +94,7 @@ namespace MardomEvaluationTest.Models.BusinessLogic
             followedCount.FollowersCount -= 1;
 
             var followerCount = _snoopingDB.FollowsCount.FirstOrDefault(
-            r => r.UsersInfo.UserProfile.UserName == uFollower.Trim());
+            r => r.UsersInfo.UserID == uFollower);
 
             followerCount.FollowedCount -= 1;
           

@@ -5,21 +5,23 @@ using System.Web;
 using MardomEvaluationTest.Infraestructure.InputModels;
 using MardomEvaluationTest.Infraestructure.ViewModels;
 using MardomEvaluationTest.Models;
+using MardomEvaluationTest.BusinessLogic.Interfaces;
 
-namespace MardomEvaluationTest.Models.BusinessLogic
+namespace MardomEvaluationTest.BusinessLogic.Servicios
 {
-    public class Perfiles
+    public class Perfiles: IPerfiles
     {
         private static SnoopingDBEntities _snoopingDb = new SnoopingDBEntities();
 
-        public List<ProfileViewModel> ObtenerPerfilesPorNombre(string criterio, int currentUserId, out ProfileViewModel profileVw)
+        public List<ProfileViewModel> ObtenerPerfilesPorNombre(string criterio, int currentUserId)
         {
-            profileVw = new ProfileViewModel();
+           
             ProfileViewModel profileView = new ProfileViewModel();
             List<ProfileViewModel> lstProfileView = new List<ProfileViewModel>();
 
             var perfiles = _snoopingDb.UsersInfo.Where(
-                r => r.FullName.Contains(criterio)).ToList();
+                r => r.FullName.Contains(criterio) 
+                    && r.UserID != currentUserId).ToList();
 
            // var currentUser = _snoopingDb.
             var followInfo = _snoopingDb.FollowsCount.FirstOrDefault(
@@ -43,7 +45,8 @@ namespace MardomEvaluationTest.Models.BusinessLogic
             return lstProfileView;                
         }
 
-        public List<SnoopViewModel> ObtenerPerfil(string username, int current, out int followers, out int followed, ref bool esSeguidor)
+        public List<SnoopViewModel> ObtenerPerfil(string username, int current, 
+            out int followers, out int followed, ref bool esSeguidor)
         {
             followed = 0;
             followers = 0;
@@ -59,6 +62,7 @@ namespace MardomEvaluationTest.Models.BusinessLogic
                 followed = followInfo.FollowedCount;
                 followers = followInfo.FollowersCount;
             }
+
 
            esSeguidor = _snoopingDb.Follows.FirstOrDefault(
                 r => r.UserFollowerID == current && r.UserProfile.UserName == username) == null ? false : true;
@@ -80,6 +84,19 @@ namespace MardomEvaluationTest.Models.BusinessLogic
             }
 
             return lstSnoopView;
+        }
+
+        public ProfileViewModel ObtenerInfoPorID(int usuarioId)
+        {
+            ProfileViewModel profileView = new ProfileViewModel();
+
+            var profile = _snoopingDb.VwProfileInfo.FirstOrDefault(
+                r => r.UserID == usuarioId);
+
+            if (profile != null)
+                profileView = new ProfileViewModel(profile);
+
+            return profileView;
         }
     }
 }
