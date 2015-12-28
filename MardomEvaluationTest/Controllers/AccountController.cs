@@ -48,9 +48,9 @@ namespace MardomEvaluationTest.Controllers
 
             ViewBag.Error = mensaje;
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-          
 
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction("Index", "Home", new { mensaje = mensaje });
         }
 
         //

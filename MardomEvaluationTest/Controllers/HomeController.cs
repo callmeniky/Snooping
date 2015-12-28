@@ -45,6 +45,9 @@ namespace MardomEvaluationTest.Controllers
                     }
                 }
             }
+            else if (!String.IsNullOrEmpty(mensaje))
+                ViewBag.Error = mensaje;
+
             return View(lstSnoops);
         }
 
