@@ -70,30 +70,6 @@
                                         <strong>@item.FullName</strong></a>@string.Format("@{0}", item.UserName)</p>
                                     <p>@ViewBag.FollowersCount Seguidores | @ViewBag.FollowedCount Seguidos</p>
                                 </div>
-                                @*<div class="col-md-8">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <span>
-                                                @Html.Raw(item.Snoop)
-                                            </span>
-                                        </li>
-                                        @if (item.Image != null)
-                                        {
-                                            <li>
-                                                @{
-                                            var imgSrc = string.Empty;
-
-                                            var base64 = Convert.ToBase64String(item.Image);
-                                            imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                                }
-                                                <img src="@imgSrc" style="width: 100%;top: -0px;" />
-                                            </li>
-                                        }
-                                        <li>
-                                            <span class="glyphicon glyphicon-heart votos"></span>
-                                        </li>
-                                    </ul>
-                                </div>*@
                             </div>
                         }
                     }

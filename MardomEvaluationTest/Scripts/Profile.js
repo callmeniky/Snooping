@@ -8,7 +8,7 @@
 
 $(function () {
 
-    CambiarFoto = function (imagen) {
+    CambiarFoto = function (imagen, modal) {
         {
             $.ajax({
                 data: JSON.stringify(imagen),
@@ -17,8 +17,11 @@ $(function () {
                 contentType: "application/json",
                 dataType: "json"
             }).done(function (data) {
-                if (data.Result)
-                    toastr.success("Se ha actualizado su foto de perfil.")
+                if (data.Result) {
+                    toastr.success("Se ha actualizado su foto de perfil.");
+                    $(modal).modal('hide');
+                    location.reload();
+                }
                 else
                     toastr.error("Lo sentimos, no hemos podido actualizar su foto de perfil.");
                 
