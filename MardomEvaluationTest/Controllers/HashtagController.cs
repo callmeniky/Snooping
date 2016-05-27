@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.Utilities;
+using Snooping.Utilities;
 
-namespace MardomEvaluationTest.Controllers
+namespace Snooping.Controllers
 {
     public class HashtagController : Controller
     {

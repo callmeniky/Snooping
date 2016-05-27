@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Web.Security;
 
 
-namespace MardomEvaluationTest.Models
+namespace Snooping.Models
 {
     //public class UsersContext
     //{

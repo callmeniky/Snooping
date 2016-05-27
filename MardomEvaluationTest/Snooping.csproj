@@ -183,10 +183,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Repositorios\Interfaces\IFollow.cs" />
-    <Compile Include="Repositorios\Interfaces\IPerfiles.cs" />
-    <Compile Include="Repositorios\Interfaces\ISnoop.cs" />
-    <Compile Include="Repositorios\Servicios\Snoop.cs" />
+    <Compile Include="Servicios\FactoriaServicios.cs" />
+    <Compile Include="Servicios\Interfaces\IFollow.cs" />
+    <Compile Include="Servicios\Interfaces\IPerfiles.cs" />
+    <Compile Include="Servicios\Interfaces\ISnoop.cs" />
+    <Compile Include="Servicios\Servicios\Snoop.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasicController.cs" />
     <Compile Include="Controllers\FollowController.cs" />
@@ -199,8 +200,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infraestructure\InputModels\AccountModels.cs" />
-    <Compile Include="Repositorios\Servicios\Follow.cs" />
-    <Compile Include="Repositorios\Servicios\Perfiles.cs" />
+    <Compile Include="Servicios\Servicios\Follow.cs" />
+    <Compile Include="Servicios\Servicios\Perfiles.cs" />
     <Compile Include="Models\Follows.cs">
       <DependentUpon>SnoopingModel.tt</DependentUpon>
     </Compile>
@@ -346,6 +347,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\SnoopingWeb.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\detective.jpg" />
     <Content Include="Images\perry.png" />
@@ -435,6 +437,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

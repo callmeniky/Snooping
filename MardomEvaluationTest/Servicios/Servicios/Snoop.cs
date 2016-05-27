@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Utilities;
-using MardomEvaluationTest.Repositorios.Interfaces;
-using MardomEvaluationTest.Infraestructure.InputModels;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Models;
+using Snooping.Utilities;
+using Snooping.Servicios.Interfaces;
+using Snooping.Infraestructure.InputModels;
 
-namespace MardomEvaluationTest.Repositorios.Servicios
+namespace Snooping.Servicios.Servicios
 {
     public class Snoop: ISnoop
     {
@@ -112,6 +112,11 @@ namespace MardomEvaluationTest.Repositorios.Servicios
           }
 
           return lstSnoopView;
+      }
+
+      public void Dispose()
+      {
+          
       }
     }
 }

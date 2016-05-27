@@ -8,10 +8,10 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using MardomEvaluationTest.Filters;
-using MardomEvaluationTest.Models;
+using Snooping.Filters;
+using Snooping.Models;
 
-namespace MardomEvaluationTest.Controllers
+namespace Snooping.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]

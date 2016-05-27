@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Infraestructure.InputModels;
-using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Repositorios.Interfaces;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Infraestructure.InputModels;
+using Snooping.Models;
+using Snooping.Servicios.Interfaces;
 
-namespace MardomEvaluationTest.Repositorios.Servicios
+namespace Snooping.Servicios.Servicios
 {
     class Follow: IFollow
     {

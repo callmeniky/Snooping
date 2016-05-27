@@ -1,11 +1,11 @@
-﻿@model ICollection<MardomEvaluationTest.Models.ExternalLogin>
+﻿@model ICollection<Snooping.Models.ExternalLogin>
 
 @if (Model.Count > 0)
 {
     <h3>Inicios de sesión externos registrados</h3>
     <table>
         <tbody>
-        @foreach (MardomEvaluationTest.Models.ExternalLogin externalLogin in Model)
+        @foreach (Snooping.Models.ExternalLogin externalLogin in Model)
         {
             <tr>
                 <td>@externalLogin.ProviderDisplayName</td>

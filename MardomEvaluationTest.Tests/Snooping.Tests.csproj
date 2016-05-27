@@ -123,9 +123,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MardomEvaluationTest\MardomEvaluationTest.csproj">
+    <ProjectReference Include="..\MardomEvaluationTest\Snooping.csproj">
       <Project>{6D66747D-4E08-4A96-B21A-DD5CB917B62E}</Project>
-      <Name>MardomEvaluationTest</Name>
+      <Name>Snooping</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

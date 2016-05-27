@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Infraestructure.InputModels;
-using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Utilities;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Infraestructure.InputModels;
+using Snooping.Models;
+using Snooping.Utilities;
 
-namespace MardomEvaluationTest.Repositorios.Interfaces
+namespace Snooping.Servicios.Interfaces
 {
-    public interface ISnoop
+    public interface ISnoop : IDisposable
     {
        List<SnoopViewModel> ObtenerSnoopPerfil(string username, ref int followed, ref int followers);
        bool AgregarSnoop(SnoopInputModel snoopInputModel);

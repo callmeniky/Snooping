@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.Repositorios;
-using MardomEvaluationTest.Infraestructure.InputModels;
-using MardomEvaluationTest.Infraestructure.ViewModels;
+using Snooping.Servicios;
+using Snooping.Infraestructure.InputModels;
+using Snooping.Infraestructure.ViewModels;
 using WebMatrix.WebData;
-using MardomEvaluationTest.Repositorios.Servicios;
+using Snooping.Servicios.Servicios;
 
-namespace MardomEvaluationTest.Controllers
+namespace Snooping.Controllers
 {
     public class FollowController : Controller
     {

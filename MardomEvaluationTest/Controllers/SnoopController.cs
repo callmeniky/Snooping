@@ -3,33 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Infraestructure.InputModels;
-using MardomEvaluationTest.Filters;
+using Snooping.Models;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Infraestructure.InputModels;
+using Snooping.Filters;
 using System.Web.Security;
 using System.Security.Policy;
-using MardomEvaluationTest.Utilities;
-using MardomEvaluationTest.Repositorios.Servicios;
+using Snooping.Utilities;
+using Snooping.Servicios.Servicios;
 using WebMatrix.WebData;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using MardomEvaluationTest.Servicios;
 
-namespace MardomEvaluationTest.Controllers
+namespace Snooping.Controllers
 {
     [InitializeSimpleMembership]
     public class SnoopController : Controller
     {
         //
         // GET: /Snoop/
-        private SnoopingDBEntities _contextDB = new SnoopingDBEntities();
-
+       
         public ActionResult Index()
         {
-            var snoop = new Snoop();
-            var lstSnoopsView = snoop.ListarSnoopsSiguiendo(WebSecurity.CurrentUserId);
+           using (var snoop = FactoriaServicios.GetSnoopInstance())
+           { 
+             var lstSnoopsView = snoop.ListarSnoopsSiguiendo(WebSecurity.CurrentUserId);
 
-            return View("_listSnoops", lstSnoopsView);
+             return View("_listSnoops", lstSnoopsView);
+            }
         }
 
         public ActionResult Profile()

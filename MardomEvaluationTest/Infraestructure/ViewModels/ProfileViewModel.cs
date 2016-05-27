@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MardomEvaluationTest.Models;
+using Snooping.Models;
 
-namespace MardomEvaluationTest.Infraestructure.ViewModels
+namespace Snooping.Infraestructure.ViewModels
 {
     public class ProfileViewModel
     {

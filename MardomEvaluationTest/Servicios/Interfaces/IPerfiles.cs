@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MardomEvaluationTest.Infraestructure.ViewModels;
+using Snooping.Infraestructure.ViewModels;
 
-namespace MardomEvaluationTest.Repositorios.Interfaces
+namespace Snooping.Servicios.Interfaces
 {
     public interface IPerfiles
     {

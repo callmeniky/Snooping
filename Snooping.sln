@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MardomEvaluationTest", "MardomEvaluationTest\MardomEvaluationTest.csproj", "{6D66747D-4E08-4A96-B21A-DD5CB917B62E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snooping", "MardomEvaluationTest\Snooping.csproj", "{6D66747D-4E08-4A96-B21A-DD5CB917B62E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MardomEvaluationTest.Tests", "MardomEvaluationTest.Tests\MardomEvaluationTest.Tests.csproj", "{C5624318-3229-4527-BC6A-2D3E07CC0591}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snooping.Tests", "MardomEvaluationTest.Tests\Snooping.Tests.csproj", "{C5624318-3229-4527-BC6A-2D3E07CC0591}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSSnooping", "WSSnooping\WSSnooping.csproj", "{E9A08BB2-2DB7-4D40-91C5-5442EA44BC10}"
 EndProject

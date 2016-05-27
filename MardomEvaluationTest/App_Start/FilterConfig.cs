@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace MardomEvaluationTest
+namespace Snooping
 {
     public class FilterConfig
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MardomEvaluationTest.Repositorios.Interfaces
+namespace Snooping.Servicios.Interfaces
 {
     public interface IFollow
     {

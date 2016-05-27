@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MardomEvaluationTest.Infraestructure.InputModels;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Repositorios.Interfaces;
-using MardomEvaluationTest.Utilities;
+using Snooping.Infraestructure.InputModels;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Models;
+using Snooping.Servicios.Interfaces;
+using Snooping.Utilities;
 
-namespace MardomEvaluationTest.Repositorios.Servicios
+namespace Snooping.Servicios.Servicios
 {
     public class Perfiles: IPerfiles
     {
@@ -24,15 +24,8 @@ namespace MardomEvaluationTest.Repositorios.Servicios
                 r => r.FullName.Contains(criterio) 
                     && r.UserID != currentUserId).ToList();
 
-           // var currentUser = _snoopingDb.
             var followInfo = _snoopingDb.FollowsCount.FirstOrDefault(
               r => r.UsersInfo.UserID == currentUserId);
-
-            //if (followInfo != null)
-            //{
-            //    followed = followInfo.FollowedCount;
-            //    followers = followInfo.FollowersCount;
-            //}
 
             if(perfiles.Any())
             {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
-using MardomEvaluationTest.Models;
+using Snooping.Models;
 
-namespace MardomEvaluationTest
+namespace Snooping
 {
     public static class AuthConfig
     {

@@ -8,7 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using WebMatrix.WebData;
 
-namespace MardomEvaluationTest
+namespace Snooping
 {
     // Nota: para obtener instrucciones sobre cómo habilitar el modo clásico de IIS6 o IIS7, 
     // visite http://go.microsoft.com/?LinkId=9394801

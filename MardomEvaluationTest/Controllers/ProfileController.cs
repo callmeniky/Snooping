@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.Models;
+using Snooping.Models;
 using System.Web.Security;
 using WebMatrix.WebData;
 using System.Text;
-using MardomEvaluationTest.Filters;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Repositorios.Servicios;
+using Snooping.Filters;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Servicios.Servicios;
 
 
-namespace MardomEvaluationTest.Controllers
+namespace Snooping.Controllers
 {
     [InitializeSimpleMembership]
     public class ProfileController : Controller

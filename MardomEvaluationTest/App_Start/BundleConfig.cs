@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace MardomEvaluationTest
+namespace Snooping
 {
     public class BundleConfig
     {

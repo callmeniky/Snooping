@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MardomEvaluationTest;
-using MardomEvaluationTest.Controllers;
+using Snooping;
+using Snooping.Controllers;
+using System.Threading.Tasks;
 
-namespace MardomEvaluationTest.Tests.Controllers
+namespace Snooping.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
@@ -19,10 +20,10 @@ namespace MardomEvaluationTest.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            Task<ActionResult> result = controller.Index("Test") as Task<ActionResult>; //controller.Index() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Modify this template to jump-start your ASP.NET MVC application.", result.ViewBag.Message);
+            Assert.AreEqual("Modify this template to jump-start your ASP.NET MVC application.", result);
         }
 
         [TestMethod]

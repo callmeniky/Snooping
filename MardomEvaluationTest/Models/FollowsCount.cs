@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MardomEvaluationTest.Models
+namespace Snooping.Models
 {
     using System;
     using System.Collections.Generic;

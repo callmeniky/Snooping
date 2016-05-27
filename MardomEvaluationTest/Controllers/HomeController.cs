@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MardomEvaluationTest.Repositorios.Servicios;
-using MardomEvaluationTest.Infraestructure.ViewModels;
+using Snooping.Servicios.Servicios;
+using Snooping.Infraestructure.ViewModels;
 using WebMatrix.WebData;
-using MardomEvaluationTest.Filters;
+using Snooping.Filters;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Configuration;
 
-namespace MardomEvaluationTest.Controllers
+namespace Snooping.Controllers
 {
     [InitializeSimpleMembership]
     public class HomeController : Controller

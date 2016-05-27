@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
-using MardomEvaluationTest.Models;
-using MardomEvaluationTest.Infraestructure.ViewModels;
-using MardomEvaluationTest.Infraestructure.InputModels;
+using Snooping.Models;
+using Snooping.Infraestructure.ViewModels;
+using Snooping.Infraestructure.InputModels;
 
-namespace MardomEvaluationTest.Utilities
+namespace Snooping.Utilities
 {
     public class HashTag
     {
