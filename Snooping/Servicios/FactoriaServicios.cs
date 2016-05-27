@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MardomEvaluationTest.Servicios
+namespace Snooping.Servicios
 {
     public class FactoriaServicios : IDisposable
     {

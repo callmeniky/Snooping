@@ -123,7 +123,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MardomEvaluationTest\Snooping.csproj">
+    <ProjectReference Include="..\Snooping\Snooping.csproj">
       <Project>{6D66747D-4E08-4A96-B21A-DD5CB917B62E}</Project>
       <Name>Snooping</Name>
     </ProjectReference>
